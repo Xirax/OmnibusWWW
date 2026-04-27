@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import fotografiaImg from '../../images/oferta/fotografia.jpg';
+import filmImg from '../../images/oferta/film.jpg';
+import grafikaImg from '../../images/oferta/grafika.jpg';
+
+const subsections = [
+  {
+    title: 'Fotografia',
+    description: 'Realizujemy sesje nieruchomości, reportaże eventowe i ślubne, a także zdjęcia wizerunkowe, biznesowe oraz plenerowe i studyjne. Fotografujemy ludzi, marki i zwierzęta, dbając o naturalność, estetykę i detale. Działamy tam, gdzie liczy się dobre ujęcie — kreatywnie i bez schematów tworzymy kadry, które przyciągają uwagę.',
+    image: fotografiaImg,
+  },
+  {
+    title: 'Film',
+    description: 'Tworzymy filmy, które angażują i budują wizerunek, pomagając wyróżnić się w świecie pełnym treści. Realizujemy produkcje długiego formatu, dynamiczne materiały do social mediów oraz reportaże z wydarzeń. Oferujemy również filmy reklamowe, produktowe, kursy i teledyski, jak i efektowne ujęcia z drona. Każdy projekt dopracowujemy od koncepcji, przez realizację, aż po finalny montaż.',
+    image: filmImg,
+  },
+  {
+    title: 'Grafika',
+    description: 'Tworzymy proste, estetyczne projekty graficzne, które skutecznie wspierają Twój wizerunek. Projektujemy okładki, wizytówki, ulotki oraz materiały do internetu, takie jak miniatury czy posty reklamowe. Stawiamy na czytelność, spójność i dopracowane detale. Grafika, która wygląda dobrze i spełnia swoją funkcję.',
+    image: grafikaImg,
+  },
+];
+---
+
+<section id="oferta" class="py-24 px-3">
+
+  <!-- Section header -->
+  <div class="flex items-center gap-4 mb-20">
+    <div class="h-px bg-white/20 w-12 shrink-0"></div>
+    <span class="font-body text-xs tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">Oferta</span>
+    <div class="h-px bg-white/20 flex-1"></div>
+  </div>
+
+  <!-- Subsections -->
+  <div class="flex flex-col gap-28">
+    {subsections.map((sub, i) => (
+      <div class={`flex flex-col md:flex-row items-center px-45 ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+
+        <!-- Text side -->
+        <div class="flex-1 flex flex-col text-center">
+          <h3 class="font-display text-4xl font-light text-white mb-3">{sub.title}</h3>
+          <div class="h-px bg-accent mb-8 mx-auto" style="width: 250px"></div>
+          <p class="font-body text-sm text-white/60 leading-relaxed max-w-[650px] mx-auto text-justify">{sub.description}</p>
+        </div>
+
+        <!-- Image side -->
+        <div class="flex-1 flex justify-center">
+          <Image
+            src={sub.image}
+            alt={sub.title}
+            class="w-full max-w-[550px] aspect-[4/3] object-cover"
+          />
+        </div>
+
+      </div>
+    ))}
+  </div>
+
+</section>

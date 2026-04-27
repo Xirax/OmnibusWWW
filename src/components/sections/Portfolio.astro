@@ -1,0 +1,174 @@
+---
+const imageModules = import.meta.glob('/src/images/portfolio/*', { eager: true });
+
+const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => ({
+  src: (mod as any).default.src,
+  id: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '',
+}));
+---
+
+<section id="portfolio" class="py-24">
+
+  <!-- Section header -->
+  <div class="flex items-center gap-4 mb-16 px-3">
+    <div class="h-px bg-white/20 w-12 shrink-0"></div>
+    <span class="font-body text-xs tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">Portfolio</span>
+    <div class="h-px bg-white/20 flex-1"></div>
+  </div>
+
+  <!-- Slider track -->
+  <div class="relative w-full" style="padding: 40px 0;">
+    <div class="absolute inset-x-0 bg-primary-light" style="top: 350px; bottom: 350px;"></div>
+
+    <!-- Images row -->
+    <div
+      id="portfolio-track"
+      class="relative flex items-center justify-around px-4 gap-4"
+      style="overflow: visible;"
+    >
+      <!-- Prev arrow (left side image) -->
+      <div
+        id="slide-prev"
+        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
+        style="flex: 1; max-height: 350px;"
+      >
+        <img
+          id="img-prev"
+          src=""
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <!-- Arrow overlay -->
+        <div class="absolute inset-0 flex items-center justify-center bg-primary/40 group-hover:bg-primary/60 transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white/80" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Center (main) image -->
+      <div
+        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
+        style="flex: 3; max-height: 800px;"
+      >
+        <img
+          id="img-current"
+          src=""
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <!-- View more overlay -->
+        <div id="img-current-overlay" class="absolute inset-0 flex items-center justify-center bg-primary/0 group-hover:bg-primary/50 transition-all duration-300">
+          <span class="font-body text-xs tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Zobacz więcej...
+          </span>
+        </div>
+      </div>
+
+      <!-- Next arrow (right side image) -->
+      <div
+        id="slide-next"
+        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
+        style="flex: 1; max-height: 350px;"
+      >
+        <img
+          id="img-next"
+          src=""
+          alt=""
+          class="w-full h-full object-cover"
+        />
+        <!-- Arrow overlay -->
+        <div class="absolute inset-0 flex items-center justify-center bg-primary/40 group-hover:bg-primary/60 transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white/80" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div id="portfolio-dots" class="flex items-center justify-center gap-2 mt-8">
+  </div>
+
+</section>
+
+<style is:global>
+  #portfolio-dots button {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 0.125rem;
+    border: none;
+    background-color: rgb(255 255 255 / 0.25);
+    cursor: pointer;
+    transition: background-color 300ms;
+  }
+  #portfolio-dots button:hover {
+    background-color: rgb(255 255 255 / 0.4);
+  }
+  #portfolio-dots button.is-active {
+    background-color: rgb(255 255 255);
+  }
+</style>
+
+<script define:vars={{ images }}>
+    console.log('images:', images);
+  let current = 0;
+  const total = images.length;
+
+  const imgPrev    = document.getElementById('img-prev');
+  const imgCurrent = document.getElementById('img-current');
+  const imgNext    = document.getElementById('img-next');
+  const overlay    = document.getElementById('img-current-overlay');
+  const dotsEl     = document.getElementById('portfolio-dots');
+  const btnPrev    = document.getElementById('slide-prev');
+  const btnNext    = document.getElementById('slide-next');
+
+  // Build dots
+  images.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', `Slajd ${i + 1}`);
+    dot.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(dot);
+  });
+
+  function wrap(n) {
+    return ((n % total) + total) % total;
+  }
+
+  function goTo(n) {
+    current = wrap(n);
+    update();
+  }
+
+  function update() {
+    const prev = wrap(current - 1);
+    const next = wrap(current + 1);
+
+    imgPrev.src    = images[prev].src;
+    imgPrev.alt    = images[prev].id;
+    imgCurrent.src = images[current].src;
+    imgCurrent.alt = images[current].id;
+    imgNext.src    = images[next].src;
+    imgNext.alt    = images[next].id;
+
+    overlay.dataset.id = images[current].id;
+
+    dotsEl.querySelectorAll('button').forEach((d, i) => {
+      d.classList.toggle('is-active', i === current);
+    });
+  }
+
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+
+  // "View more" click — will become gallery link later
+  overlay.addEventListener('click', () => {
+    const id = overlay.dataset.id;
+    if (id) window.location.href = `/gallery/${id}`;
+  });
+
+  // Init
+  update();
+</script>

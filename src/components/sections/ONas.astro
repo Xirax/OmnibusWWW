@@ -1,0 +1,61 @@
+---
+import omnibusImg from '../../images/onas/omnibus.png';
+import franekImg from '../../images/onas/franek.JPG';
+import dominikImg from '../../images/onas/dominik.JPG';
+
+const subsections = [
+  {
+    title: 'Omnibus',
+    description: 'Omnibus Media Studio powstało w 2023 roku. Na czele stoi dwóch młodych, ambitnych przyjaciół, którzy trzymają się ze sobą od 15 lat i profesjonalnie realizują pasje do obrazu i kreatywnej pracy. Razem z naszym młodym, energicznym zespołem fotografów, montażystów i operatorów tworzymy przestrzeń, w której każdy projekt zyskuje profesjonalne wsparcie i świeże spojrzenie. Od początku stawiamy na rozwój, otwartość i indywidualne podejście do każdego zadania. Nie boimy się wyzwań – wręcz przeciwnie, to one napędzają nas do działania. Dbamy o spójność oraz efekt końcowy realizacji, które naprawdę wyróżniają naszych klientów.',
+    image: omnibusImg.src,
+  },
+  {
+    title: 'Franciszek',
+    description: 'Franciszek Ochoński to 21-letni operator kamery i montażysta wideo z ponad 4,5-letnim doświadczeniem w branży foto i wideo. W swojej pracy stawia na precyzję, dbałość o detale i wysoką jakość realizacji na każdym etapie produkcji. Łączy techniczne umiejętności z wyczuciem estetyki, tworząc materiały dynamiczne i dostosowane do panujących trendów. Profesjonalne podejście, otwartość i charyzmatyczna osobowość sprawiają, że współpraca przebiega sprawnie i w dobrej atmosferze.',
+    image: franekImg.src,
+  },
+  {
+    title: 'Dominik',
+    description: 'Dominik Zięba to 21-letni fotograf i grafik z ponad 6-letnim doświadczeniem w branży foto-wideo i certyfikatem technika PGF.04. Specjalizuje się w tworzeniu projektów graficznych i fotograficznych, dbając o każdy detal i estetykę materiałów. Jego kreatywność, zaangażowanie i przyjazne podejście sprawiają, że współpraca z nim jest nie tylko efektywna, ale i inspirująca.',
+    image: dominikImg.src,
+  },
+];
+---
+
+<section id="o-nas" class="py-24 px-3">
+
+  <!-- Section header -->
+  <div class="flex items-center gap-4 mb-20">
+    <div class="h-px bg-white/20 w-12 shrink-0"></div>
+    <span class="font-body text-xs tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">O nas</span>
+    <div class="h-px bg-white/20 flex-1"></div>
+  </div>
+
+  <!-- Subsections -->
+  <div class="flex flex-col gap-28">
+    {subsections.map((sub, i) => (
+      <div class={`flex flex-col md:flex-row items-center px-45 ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+
+        <!-- Text side -->
+        <div class="flex-1 flex flex-col text-center">
+          <h3 class="font-display text-4xl font-light text-white mb-3">{sub.title}</h3>
+          <div class="h-px bg-accent mb-8 mx-auto" style="width: 250px"></div>
+          <p class="font-body text-sm text-white/60 leading-relaxed max-w-[650px] mx-auto text-justify">{sub.description}</p>
+        </div>
+
+        <!-- Image side -->
+        <div class="flex-1 flex justify-center">
+          <div class="overflow-hidden" style="aspect-ratio: 9/16; max-height: 600px; width: 100%; max-width: 340px;">
+            <img
+              src={sub.image}
+              alt={sub.title}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
+      </div>
+    ))}
+  </div>
+
+</section>

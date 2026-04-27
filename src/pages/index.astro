@@ -1,0 +1,166 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import landingImg from "../images/landing_page.jpg";
+import logo from "../images/logo2.png";
+import iconFB from "../images/socials/FB.png";
+import iconInsta from "../images/socials/Insta.png";
+import iconTiktok from "../images/socials/tiktok.png";
+
+import Oferta from '../components/sections/Oferta.astro';
+import Portfolio from '../components/sections/Portfolio.astro';
+import ONas from '../components/sections/ONas.astro';
+
+import "../styles/index.css";
+---
+
+<BaseLayout title="Omnibus Media Studio">
+  <!-- ========== HEADER ========== -->
+  <header
+    id="header"
+    class="fixed top-0 left-0 right-0 z-50"
+  >
+    <div
+      class="max-w-7xl mx-auto px-8 h-[70px] flex items-center justify-between"
+    >
+      <a href="/">
+        <img
+          src={logo.src}
+          alt="Omnibus Media Studio"
+          class="h-10 w-auto object-contain"
+        />
+      </a>
+      <!-- Nav -->
+      <nav class="hidden md:flex items-center gap-10">
+        <a
+          href="#oferta"
+          class="font-body text-xs tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300"
+          >Oferta</a
+        >
+        <a
+          href="#portfolio"
+          class="font-body text-xs tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300"
+          >Portfolio</a
+        >
+        <a
+          href="#o-nas"
+          class="font-body text-xs tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300"
+          >O nas</a
+        >
+        <a
+          href="#opinie"
+          class="font-body text-xs tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300"
+          >Opinie</a
+        >
+        <a
+          href="#kontakt"
+          class="font-body text-xs tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300"
+          >Kontakt</a
+        >
+      </nav>
+
+      <!-- Social icons -->
+      <div class="flex items-center gap-4">
+        <a
+          href="#"
+          aria-label="Facebook"
+          class="opacity-50 hover:opacity-100 transition-opacity duration-300"
+        >
+          <img src={iconFB.src} alt="Facebook" class="w-[35px] h-[35px] object-contain" />
+        </a>
+        <a
+          href="#"
+          aria-label="Instagram"
+          class="opacity-50 hover:opacity-100 transition-opacity duration-300"
+        >
+          <img
+            src={iconInsta.src}
+            alt="Instagram"
+            class="w-[35px] h-[35px] object-contain"
+          />
+        </a>
+        <a
+          href="#"
+          aria-label="TikTok"
+          class="opacity-50 hover:opacity-100 transition-opacity duration-300"
+        >
+          <img
+            src={iconTiktok.src}
+            alt="TikTok"
+            class="w-[35px] h-[35px] object-contain"
+          />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== HERO / LANDING ========== -->
+  <section class="relative w-full h-screen overflow-hidden">
+    <!-- Background image -->
+    <img
+      src={landingImg.src}
+      alt="Omnibus Media Studio - sesja fotograficzna"
+      class="absolute inset-0 w-full h-full object-cover object-center"
+    />
+
+    <!-- Dark overlay with subtle gradient -->
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/40 to-primary/80"
+    >
+    </div>
+
+    <!-- Centered text -->
+    <div
+      class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center"
+    >
+      <div class="overflow-hidden">
+        <p
+          class="font-body text-xs tracking-[0.35em] uppercase text-accent mb-6 animate-fade-in-up hero-tagline"
+        >
+          Fotografia &amp; Film
+        </p>
+      </div>
+      <div class="overflow-hidden">
+        <h1
+          class="font-display text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight max-w-4xl animate-fade-in-up hero-heading"
+        >
+          Obrazy, które mówią<br />
+          <em class="text-accent not-italic font-normal">więcej niż słowa</em>
+        </h1>
+      </div>
+      <div class="overflow-hidden mt-4">
+        <p
+          class="font-body text-sm tracking-[0.2em] uppercase text-white/50 animate-fade-in-up hero-subtitle"
+        >
+          Omnibus Media Studio
+        </p>
+      </div>
+    </div>
+
+    <!-- Scroll arrow -->
+    <div
+      class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce-slow"
+    >
+      <span class="font-body text-[10px] tracking-[0.3em] uppercase text-white/40">
+        Przewiń
+      </span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 text-accent"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Section divider -->
+  <Oferta />
+  <Portfolio />
+  <ONas />
+
+</BaseLayout>
+
