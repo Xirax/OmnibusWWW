@@ -34,7 +34,7 @@ const subsections = [
   <!-- Subsections -->
   <div class="flex flex-col gap-28">
     {subsections.map((sub, i) => (
-      <div class={`flex flex-col md:flex-row items-center px-45 ${i % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+      <div class={`flex flex-col min-[1100px]:flex-row items-center px-45 gap-6 ${i % 2 !== 0 ? 'min-[1100px]:flex-row-reverse' : ''}`}>
 
         <!-- Text side -->
         <div class="flex-1 flex flex-col text-center">
@@ -44,7 +44,10 @@ const subsections = [
         </div>
 
         <!-- Image side -->
-        <div class="flex-1 flex justify-center">
+        <div
+          class="flex-1 flex justify-center onas-image"
+          data-direction={i % 2 === 0 ? 'right' : 'left'}
+        >
           <div class="overflow-hidden" style="aspect-ratio: 9/16; max-height: 600px; width: 100%; max-width: 340px;">
             <img
               src={sub.image}
@@ -59,3 +62,36 @@ const subsections = [
   </div>
 
 </section>
+
+<style>
+  .onas-image {
+    opacity: 0;
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .onas-image[data-direction="right"] {
+    transform: translateX(70px);
+  }
+  .onas-image[data-direction="left"] {
+    transform: translateX(-70px);
+  }
+  .onas-image.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  const images = document.querySelectorAll<HTMLElement>('.onas-image');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.25 }
+  );
+  images.forEach((el) => observer.observe(el));
+</script>

@@ -1,0 +1,89 @@
+---
+---
+
+<section id="opinie" class="py-24 px-3">
+
+  <!-- Section header -->
+  <div class="flex items-center gap-4 mb-16 px-3">
+    <div class="h-px bg-white/20 w-12 shrink-0"></div>
+    <span class="font-body text-xs tracking-[0.3em] uppercase text-white whitespace-nowrap">Opinie</span>
+    <div class="h-px bg-white/20 flex-1"></div>
+  </div>
+
+  <!-- 3 columns -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
+
+    <!-- Column 1: Clients -->
+    <div class="bg-primary flex flex-col items-center justify-center py-16 px-8 text-center">
+    <div style="width: 80px; height: 80px; border-radius: 3px;" class="flex items-center justify-center">
+        <span
+        class="font-display text-6xl font-light text-white"
+        data-counter
+        data-target="40"
+        >0</span>
+    </div>
+        <div class="h-px bg-white/30 w-12 my-6"></div>
+        <p class="font-body text-xs tracking-[0.25em] uppercase text-white/80">Zadowolonych klientów</p>
+    </div>
+
+    <!-- Column 2: Orders -->
+    <div class="bg-primary flex flex-col items-center justify-center py-16 px-8 text-center">
+    <div style="width: 80px; height: 80px; border-radius: 3px;" class="flex items-center justify-center">
+        <span
+        class="font-display text-6xl font-light text-white"
+        data-counter
+        data-target="65"
+        >0</span>
+    </div>
+    <div class="h-px bg-white/30 w-12 my-6"></div>
+    <p class="font-body text-xs tracking-[0.25em] uppercase text-white/80">Zrealizowanych zleceń</p>
+    </div>
+
+    <!-- Column 3: Review button -->
+    <div class="bg-primary flex flex-col items-center justify-center py-16 px-8 text-center">
+      <p class="font-body text-xs tracking-[0.2em] uppercase text-white/40 mb-8">Byłeś z nas zadowolony?</p>
+      
+         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        Wystaw nam opinię
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+  function animateCounter(el: HTMLElement) {
+    const target = parseInt(el.dataset.target ?? '0', 10);
+    const duration = 1800;
+    const start = performance.now();
+
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target).toString();
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toString();
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Trigger when section scrolls into view
+  const counters = document.querySelectorAll<HTMLElement>('[data-counter]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(entry.target as HTMLElement);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  counters.forEach(el => observer.observe(el));
+</script>

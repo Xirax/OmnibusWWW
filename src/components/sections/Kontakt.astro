@@ -1,0 +1,46 @@
+---
+import logo from "../../images/logo1.png";
+import iconFB from "../../images/socials/FB.png";
+import iconInsta from "../../images/socials/Insta.png";
+import iconTiktok from "../../images/socials/tiktok.png";
+---
+
+<footer id="kontakt" class="bg-primary-light flex items-center px-[150px] min-h-[250px]">
+  <div class="flex items-center w-full gap-[150px]">
+
+    <!-- Contact subsection -->
+    <div class="flex flex-col gap-2">
+      <h2 class="font-display text-2xl font-light text-white tracking-[0.2em] uppercase mb-1">Kontakt</h2>
+      <p class="font-body text-sm text-white/70">123 456 789</p>
+      <p class="font-body text-sm text-white/70">adres.email@gmail.com</p>
+      <div class="flex items-center gap-3 mt-2">
+        <a href="#" aria-label="Facebook" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+          <img src={iconFB.src} alt="Facebook" class="w-[30px] h-[30px] object-contain" />
+        </a>
+        <a href="#" aria-label="Instagram" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+          <img src={iconInsta.src} alt="Instagram" class="w-[30px] h-[30px] object-contain" />
+        </a>
+        <a href="#" aria-label="TikTok" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+          <img src={iconTiktok.src} alt="TikTok" class="w-[30px] h-[30px] object-contain" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Button -->
+    <a
+      href="https://mail.google.com/mail/?view=cm&to=adres.email@gmail.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="bg-accent text-white font-body text-xs tracking-[0.2em] uppercase px-8 py-4 hover:bg-accent-light transition-colors duration-300 shrink-0"
+    >
+      Napisz do nas
+    </a>
+
+    <!-- Spacer -->
+    <div class="flex-1"></div>
+
+    <!-- Logo -->
+    <img src={logo.src} alt="Omnibus Media Studio" class="h-24 w-auto object-contain" />
+
+  </div>
+</footer>

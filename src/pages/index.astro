@@ -11,6 +11,8 @@ import Portfolio from '../components/sections/Portfolio.astro';
 import ONas from '../components/sections/ONas.astro';
 
 import "../styles/index.css";
+import Opinie from "../components/sections/Opinie.astro";
+import Kontakt from "../components/sections/Kontakt.astro";
 ---
 
 <BaseLayout title="Omnibus Media Studio">
@@ -65,7 +67,7 @@ import "../styles/index.css";
           aria-label="Facebook"
           class="opacity-50 hover:opacity-100 transition-opacity duration-300"
         >
-          <img src={iconFB.src} alt="Facebook" class="w-[35px] h-[35px] object-contain" />
+          <img src={iconFB.src} alt="Facebook" class="w-[30px] h-[30px] object-contain" />
         </a>
         <a
           href="#"
@@ -75,7 +77,7 @@ import "../styles/index.css";
           <img
             src={iconInsta.src}
             alt="Instagram"
-            class="w-[35px] h-[35px] object-contain"
+            class="w-[30px] h-[30px] object-contain"
           />
         </a>
         <a
@@ -86,12 +88,94 @@ import "../styles/index.css";
           <img
             src={iconTiktok.src}
             alt="TikTok"
-            class="w-[35px] h-[35px] object-contain"
+            class="w-[30px] h-[30px] object-contain"
           />
         </a>
+
+        <!-- Hamburger button — visible only below md -->
+        <button
+          id="menu-toggle"
+          aria-label="Otwórz menu"
+          aria-expanded="false"
+          class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-[6px] ml-15"
+        >
+          <span class="line-top block w-6 h-[1.5px] bg-white"></span>
+          <span class="line-mid block w-6 h-[1.5px] bg-white"></span>
+          <span class="line-bot block w-6 h-[1.5px] bg-white"></span>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile menu overlay -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-40 flex flex-col bg-primary/95 backdrop-blur-sm translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+    aria-hidden="true"
+  >
+    <!-- Close button -->
+    <div class="flex justify-end px-8 pt-6 pb-4">
+      <button
+        id="menu-close"
+        aria-label="Zamknij menu"
+        class="text-white/70 hover:text-accent transition-colors duration-300 p-2"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Menu links -->
+    <nav class="flex flex-col items-center justify-center flex-1 gap-10">
+      <a href="#oferta" class="mobile-nav-link font-body text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">Oferta</a>
+      <a href="#portfolio" class="mobile-nav-link font-body text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">Portfolio</a>
+      <a href="#o-nas" class="mobile-nav-link font-body text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">O nas</a>
+      <a href="#opinie" class="mobile-nav-link font-body text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">Opinie</a>
+      <a href="#kontakt" class="mobile-nav-link font-body text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">Kontakt</a>
+    </nav>
+  </div>
+
+  <style>
+    #menu-toggle .line-top    { transition: transform 0.3s ease; }
+    #menu-toggle .line-mid    { transition: opacity 0.2s ease; }
+    #menu-toggle .line-bot    { transition: transform 0.3s ease; }
+
+    #menu-toggle.is-open .line-top { transform: translateY(7.5px) rotate(45deg); }
+    #menu-toggle.is-open .line-mid { opacity: 0; }
+    #menu-toggle.is-open .line-bot { transform: translateY(-7.5px) rotate(-45deg); }
+  </style>
+
+  <script>
+    const toggle = document.getElementById('menu-toggle')!;
+    const closeBtn = document.getElementById('menu-close')!;
+    const menu = document.getElementById('mobile-menu')!;
+
+    function openMenu() {
+      menu.classList.remove('translate-x-full');
+      menu.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      menu.classList.add('translate-x-full');
+      menu.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', () => {
+      toggle.classList.contains('is-open') ? closeMenu() : openMenu();
+    });
+    closeBtn.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+  </script>
 
   <!-- ========== HERO / LANDING ========== -->
   <section class="relative w-full h-screen overflow-hidden">
@@ -161,6 +245,8 @@ import "../styles/index.css";
   <Oferta />
   <Portfolio />
   <ONas />
+  <Opinie />
+  <Kontakt />
 
 </BaseLayout>
 

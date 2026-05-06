@@ -166,7 +166,7 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
   // "View more" click — will become gallery link later
   overlay.addEventListener('click', () => {
     const id = overlay.dataset.id;
-    if (id) window.location.href = `/gallery/${id}`;
+    if (id) window.location.href = `/gallery?id=${id}`;
   });
 
   // Init
