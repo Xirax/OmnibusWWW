@@ -5,6 +5,7 @@ import logo from "../images/logo2.png";
 import iconFB from "../images/socials/FB.png";
 import iconInsta from "../images/socials/Insta.png";
 import iconTiktok from "../images/socials/tiktok.png";
+import iconYoutube from "../images/socials/youtube.png";
 
 import Oferta from '../components/sections/Oferta.astro';
 import Portfolio from '../components/sections/Portfolio.astro';
@@ -63,15 +64,19 @@ import Kontakt from "../components/sections/Kontakt.astro";
       <!-- Social icons -->
       <div class="flex items-center gap-4">
         <a
-          href="#"
+          href="https://www.facebook.com/profile.php?id=61551022192369"
           aria-label="Facebook"
+          target="_blank"
+          rel="noopener noreferrer"
           class="opacity-50 hover:opacity-100 transition-opacity duration-300"
         >
           <img src={iconFB.src} alt="Facebook" class="w-[30px] h-[30px] object-contain" />
         </a>
         <a
-          href="#"
+          href="https://www.instagram.com/omnibusmediastudio/"
           aria-label="Instagram"
+          target="_blank"
+          rel="noopener noreferrer"
           class="opacity-50 hover:opacity-100 transition-opacity duration-300"
         >
           <img
@@ -81,13 +86,28 @@ import Kontakt from "../components/sections/Kontakt.astro";
           />
         </a>
         <a
-          href="#"
+          href="https://www.tiktok.com/@omnibusmediastudio"
           aria-label="TikTok"
+          target="_blank"
+          rel="noopener noreferrer"
           class="opacity-50 hover:opacity-100 transition-opacity duration-300"
         >
           <img
             src={iconTiktok.src}
             alt="TikTok"
+            class="w-[30px] h-[30px] object-contain"
+          />
+        </a>
+        <a
+          href="https://www.youtube.com/@OmnibusMediaStudio"
+          aria-label="YouTube"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="opacity-50 hover:opacity-100 transition-opacity duration-300"
+        >
+          <img
+            src={iconYoutube.src}
+            alt="YouTube"
             class="w-[30px] h-[30px] object-contain"
           />
         </a>

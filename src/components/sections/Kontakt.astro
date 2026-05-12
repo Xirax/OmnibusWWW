@@ -3,10 +3,11 @@ import logo from "../../images/logo1.png";
 import iconFB from "../../images/socials/FB.png";
 import iconInsta from "../../images/socials/Insta.png";
 import iconTiktok from "../../images/socials/tiktok.png";
+import iconYoutube from "../../images/socials/youtube.png";
 ---
 
-<footer id="kontakt" class="bg-primary-light flex items-center px-[150px] min-h-[250px]">
-  <div class="flex items-center w-full gap-[150px]">
+<footer id="kontakt" class="bg-primary-light flex items-center px-6 sm:px-12 lg:px-[150px] py-10 lg:py-0 lg:min-h-[250px]">
+  <div class="flex flex-col lg:flex-row items-center w-full gap-10 lg:gap-[150px]">
 
     <!-- Contact subsection -->
     <div class="flex flex-col gap-2">
@@ -14,14 +15,17 @@ import iconTiktok from "../../images/socials/tiktok.png";
       <p class="font-body text-sm text-white/70">123 456 789</p>
       <p class="font-body text-sm text-white/70">adres.email@gmail.com</p>
       <div class="flex items-center gap-3 mt-2">
-        <a href="#" aria-label="Facebook" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+        <a href="https://www.facebook.com/profile.php?id=61551022192369" aria-label="Facebook" target="_blank" rel="noopener noreferrer" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
           <img src={iconFB.src} alt="Facebook" class="w-[30px] h-[30px] object-contain" />
         </a>
-        <a href="#" aria-label="Instagram" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+        <a href="https://www.instagram.com/omnibusmediastudio/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
           <img src={iconInsta.src} alt="Instagram" class="w-[30px] h-[30px] object-contain" />
         </a>
-        <a href="#" aria-label="TikTok" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+        <a href="https://www.tiktok.com/@omnibusmediastudio" aria-label="TikTok" target="_blank" rel="noopener noreferrer" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
           <img src={iconTiktok.src} alt="TikTok" class="w-[30px] h-[30px] object-contain" />
+        </a>
+        <a href="https://www.youtube.com/@OmnibusMediaStudio" aria-label="YouTube" target="_blank" rel="noopener noreferrer" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+          <img src={iconYoutube.src} alt="YouTube" class="w-[30px] h-[30px] object-contain" />
         </a>
       </div>
     </div>
@@ -37,7 +41,7 @@ import iconTiktok from "../../images/socials/tiktok.png";
     </a>
 
     <!-- Spacer -->
-    <div class="flex-1"></div>
+    <div class="hidden lg:block flex-1"></div>
 
     <!-- Logo -->
     <img src={logo.src} alt="Omnibus Media Studio" class="h-24 w-auto object-contain" />
