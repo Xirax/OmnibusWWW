@@ -18,7 +18,7 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
 
   <!-- Slider track -->
   <div class="relative w-full" style="padding: 40px 0;">
-    <div class="absolute inset-x-0 bg-primary-light" style="top: 350px; bottom: 350px;"></div>
+    <div class="absolute inset-x-0 bg-primary-light hidden md:block" style="top: 350px; bottom: 350px;"></div>
 
     <!-- Images row -->
     <div
@@ -29,7 +29,7 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
       <!-- Prev arrow (left side image) -->
       <div
         id="slide-prev"
-        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
+        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden hidden md:flex"
         style="flex: 1; max-height: 350px;"
       >
         <img
@@ -48,6 +48,7 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
 
       <!-- Center (main) image -->
       <div
+        id="portfolio-center"
         class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
         style="flex: 3; max-height: 800px;"
       >
@@ -68,7 +69,7 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
       <!-- Next arrow (right side image) -->
       <div
         id="slide-next"
-        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
+        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden hidden md:flex"
         style="flex: 1; max-height: 350px;"
       >
         <img
@@ -109,6 +110,14 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
   }
   #portfolio-dots button.is-active {
     background-color: rgb(255 255 255);
+  }
+
+  @media (max-width: 767px) {
+    #portfolio-center {
+      flex: 1 !important;
+      max-height: none !important;
+      width: 100%;
+    }
   }
 </style>
 
@@ -162,6 +171,23 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
 
   btnPrev.addEventListener('click', () => goTo(current - 1));
   btnNext.addEventListener('click', () => goTo(current + 1));
+
+  // Touch/swipe support for mobile
+  let touchStartX = 0;
+  const SWIPE_THRESHOLD = 50;
+
+  const track = document.getElementById('portfolio-track');
+  track.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    const delta = touchStartX - e.changedTouches[0].screenX;
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      if (delta > 0) goTo(current + 1);
+      else goTo(current - 1);
+    }
+  }, { passive: true });
 
   // "View more" click — will become gallery link later
   overlay.addEventListener('click', () => {
