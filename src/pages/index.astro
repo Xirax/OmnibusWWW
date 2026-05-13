@@ -168,6 +168,15 @@ import Kontakt from "../components/sections/Kontakt.astro";
     #menu-toggle.is-open .line-top { transform: translateY(7.5px) rotate(45deg); }
     #menu-toggle.is-open .line-mid { opacity: 0; }
     #menu-toggle.is-open .line-bot { transform: translateY(-7.5px) rotate(-45deg); }
+
+    #header {
+      transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    #header.scrolled {
+      background-color: rgba(51, 50, 48, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
   </style>
 
   <script>
@@ -199,6 +208,13 @@ import Kontakt from "../components/sections/Kontakt.astro";
     document.querySelectorAll('.mobile-nav-link').forEach(link => {
       link.addEventListener('click', closeMenu);
     });
+
+    const header = document.getElementById('header')!;
+    function updateHeader() {
+      header.classList.toggle('scrolled', window.scrollY > 20);
+    }
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    updateHeader();
   </script>
 
   <!-- ========== HERO / LANDING ========== -->
@@ -214,7 +230,7 @@ import Kontakt from "../components/sections/Kontakt.astro";
 
     <!-- Dark overlay with subtle gradient -->
     <div
-      class="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/40 to-primary/80"
+      class="absolute inset-0 bg-gradient-to-b from-primary/85 via-primary/65 to-primary/90"
     >
     </div>
 
@@ -233,8 +249,8 @@ import Kontakt from "../components/sections/Kontakt.astro";
         <h1
           class="font-display text-4xl md:text-6xl lg:text-7xl font-light text-white leading-tight max-w-4xl animate-fade-in-up hero-heading"
         >
-          Obrazy, które mówią<br />
-          <em class="text-accent not-italic font-normal">więcej niż słowa</em>
+          Obrazy, które mówią <br />
+          więcej niż słowa
         </h1>
       </div>
       <div class="overflow-hidden mt-4">
@@ -250,7 +266,7 @@ import Kontakt from "../components/sections/Kontakt.astro";
     <div
       class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce-slow"
     >
-      <span class="font-body text-[10px] tracking-[0.3em] uppercase text-white/40">
+      <span class="font-body text-[10px] tracking-[0.3em] uppercase text-white/40 pl-[0.3em]">
         Przewiń
       </span>
       <svg
