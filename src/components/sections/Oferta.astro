@@ -35,10 +35,10 @@ const subsections = [
   <!-- Subsections -->
   <div class="flex flex-col gap-28">
     {subsections.map((sub, i) => (
-      <div class={`flex flex-col min-[1100px]:flex-row items-center px-45 gap-6 ${i % 2 !== 0 ? 'min-[1100px]:flex-row-reverse' : ''}`}>
+      <div class={`flex flex-col min-[1100px]:flex-row items-center min-[1100px]:px-45 gap-6 ${i % 2 !== 0 ? 'min-[1100px]:flex-row-reverse' : ''}`}>
 
         <!-- Text side -->
-        <div class="flex-1 flex flex-col text-center">
+        <div class="flex-1 flex flex-col text-center w-full">
           <h3 class="font-display text-4xl font-light text-white mb-3">{sub.title}</h3>
           <div class="h-px bg-accent mb-8 mx-auto" style="width: 250px"></div>
           <p class="font-body text-sm text-white/60 leading-relaxed max-w-[650px] mx-auto text-justify">{sub.description}</p>
@@ -46,7 +46,7 @@ const subsections = [
 
         <!-- Image side -->
         <div
-          class="flex-1 flex justify-center oferta-image"
+          class="flex-1 flex justify-center oferta-image w-full"
           data-direction={i % 2 === 0 ? 'right' : 'left'}
         >
           <Image
