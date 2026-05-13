@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
 import landingImg from "../images/landing_page.jpg";
 import logo from "../images/logo2.png";
 import iconFB from "../images/socials/FB.png";
@@ -203,10 +204,12 @@ import Kontakt from "../components/sections/Kontakt.astro";
   <!-- ========== HERO / LANDING ========== -->
   <section class="relative w-full h-screen overflow-hidden">
     <!-- Background image -->
-    <img
-      src={landingImg.src}
+    <Image
+      src={landingImg}
       alt="Omnibus Media Studio - sesja fotograficzna"
       class="absolute inset-0 w-full h-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high"
     />
 
     <!-- Dark overlay with subtle gradient -->
