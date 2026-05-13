@@ -17,10 +17,11 @@ import Kontakt from "../components/sections/Kontakt.astro";
 ---
 
 <BaseLayout title="Omnibus Media Studio">
+<div class="overflow-x-hidden">
   <!-- ========== HEADER ========== -->
   <header
     id="header"
-    class="fixed top-0 left-0 right-0 z-50"
+    class="fixed top-0 left-0 right-0 z-50 w-screen"
   >
     <div
       class="max-w-7xl mx-auto px-8 h-[70px] flex items-center justify-between"
@@ -63,6 +64,7 @@ import Kontakt from "../components/sections/Kontakt.astro";
 
       <!-- Social icons -->
       <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-4">
         <a
           href="https://www.facebook.com/profile.php?id=61551022192369"
           aria-label="Facebook"
@@ -111,6 +113,7 @@ import Kontakt from "../components/sections/Kontakt.astro";
             class="w-[30px] h-[30px] object-contain"
           />
         </a>
+        </div>
 
         <!-- Hamburger button — visible only below md -->
         <button
@@ -268,5 +271,6 @@ import Kontakt from "../components/sections/Kontakt.astro";
   <Opinie />
   <Kontakt />
 
+</div>
 </BaseLayout>
 
