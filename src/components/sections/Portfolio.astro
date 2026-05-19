@@ -49,14 +49,14 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
       <!-- Center (main) image -->
       <div
         id="portfolio-center"
-        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden"
+        class="relative shrink-0 cursor-pointer group overflow-hidden flex items-center justify-center"
         style="flex: 3; max-height: 800px;"
       >
         <img
           id="img-current"
           src=""
           alt=""
-          class="w-full h-full object-cover"
+          class="max-h-[800px] w-auto max-w-full"
         />
         <!-- View more overlay -->
         <div id="img-current-overlay" class="absolute inset-0 flex items-center justify-center bg-primary/0 group-hover:bg-primary/50 transition-all duration-300">
