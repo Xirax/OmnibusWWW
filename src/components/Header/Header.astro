@@ -36,7 +36,7 @@ const navLinks = [
       />
     </a>
     <!-- Nav -->
-    <nav class="font-ironclad text-s hidden md:flex items-center gap-10">
+    <nav class="font-ironclad text-fsmall hidden md:flex items-center gap-10">
       {navLinks.map(({ href, label }) => (
         <a href={href} class="tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300">
           {label}
@@ -91,7 +91,7 @@ const navLinks = [
   <!-- Menu links -->
   <nav class="flex flex-col items-center justify-center flex-1 gap-10">
     {navLinks.map(({ href, label }) => (
-      <a href={href} class="mobile-nav-link text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">
+      <a href={href} class="mobile-nav-link text-fmd tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">
         {label}
       </a>
     ))}

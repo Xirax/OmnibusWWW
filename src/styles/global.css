@@ -17,4 +17,7 @@ body {
 
 @theme {
   --font-ironclad: "Ironclad", sans-serif;
+  --text-fsmall: 16px;
+  --text-fmd: 20px;
+  --text-fhd: 24px;
 }
