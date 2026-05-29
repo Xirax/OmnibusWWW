@@ -1,0 +1,120 @@
+---
+import logo from "../../images/logo2.png";
+import iconFB from "../../images/socials/FB.png";
+import iconInsta from "../../images/socials/Insta.png";
+import iconTiktok from "../../images/socials/tiktok.png";
+import iconYoutube from "../../images/socials/youtube.png";
+
+const socialLinks = [
+  { href: "https://www.facebook.com/profile.php?id=61551022192369", label: "Facebook", icon: iconFB  },
+  { href: "https://www.instagram.com/omnibusmediastudio/",          label: "Instagram", icon: iconInsta },
+  { href: "https://www.tiktok.com/@omnibusmediastudio",             label: "TikTok",   icon: iconTiktok },
+  { href: "https://www.youtube.com/@OmnibusMediaStudio",            label: "YouTube",  icon: iconYoutube },
+];
+
+const navLinks = [
+  { href: "#oferta",    label: "Oferta"    },
+  { href: "#portfolio", label: "Portfolio" },
+  { href: "#o-nas",     label: "O nas"     },
+  { href: "#opinie",    label: "Opinie"    },
+  { href: "#kontakt",   label: "Kontakt"   },
+];
+---
+
+<header
+  id="header"
+  class="fixed top-0 left-0 right-0 z-50 w-screen"
+>
+  <div
+    class="max-w-7xl mx-auto px-8 h-[70px] flex items-center justify-between"
+  >
+    <a href="/">
+      <img
+        src={logo.src}
+        alt="Omnibus Media Studio"
+        class="h-10 w-auto object-contain"
+      />
+    </a>
+    <!-- Nav -->
+    <nav class="font-ironclad text-s hidden md:flex items-center gap-10">
+      {navLinks.map(({ href, label }) => (
+        <a href={href} class="tracking-[0.2em] uppercase text-white/70 hover:text-accent transition-colors duration-300">
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <!-- Social icons -->
+    <div class="flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-4">
+        {socialLinks.map(({ href, label, icon }) => (
+          <a href={href} aria-label={label} target="_blank" rel="noopener noreferrer" class="opacity-50 hover:opacity-100 transition-opacity duration-300">
+            <img src={icon.src} alt={label} class="w-[30px] h-[30px] object-contain" />
+          </a>
+        ))}
+      </div>
+
+      <!-- Hamburger button — visible only below md -->
+      <button
+        id="menu-toggle"
+        aria-label="Otwórz menu"
+        aria-expanded="false"
+        class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-[6px] ml-15"
+      >
+        <span class="line-top block w-6 h-[1.5px] bg-white"></span>
+        <span class="line-mid block w-6 h-[1.5px] bg-white"></span>
+        <span class="line-bot block w-6 h-[1.5px] bg-white"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 flex flex-col bg-primary/95 backdrop-blur-sm translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+  aria-hidden="true"
+>
+  <!-- Close button -->
+  <div class="flex justify-end px-8 pt-6 pb-4">
+    <button
+      id="menu-close"
+      aria-label="Zamknij menu"
+      class="text-white/70 hover:text-accent transition-colors duration-300 p-2"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Menu links -->
+  <nav class="flex flex-col items-center justify-center flex-1 gap-10">
+    {navLinks.map(({ href, label }) => (
+      <a href={href} class="mobile-nav-link text-sm tracking-[0.3em] uppercase text-white/70 hover:text-accent transition-colors duration-300">
+        {label}
+      </a>
+    ))}
+  </nav>
+</div>
+
+<style>
+  #menu-toggle .line-top    { transition: transform 0.3s ease; }
+  #menu-toggle .line-mid    { transition: opacity 0.2s ease; }
+  #menu-toggle .line-bot    { transition: transform 0.3s ease; }
+
+  #menu-toggle.is-open .line-top { transform: translateY(7.5px) rotate(45deg); }
+  #menu-toggle.is-open .line-mid { opacity: 0; }
+  #menu-toggle.is-open .line-bot { transform: translateY(-7.5px) rotate(-45deg); }
+
+  #header {
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  #header.scrolled {
+    background-color: rgba(51, 50, 48, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+</style>
+
+<script src="./header.js"></script>
