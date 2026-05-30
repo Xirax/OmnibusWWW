@@ -70,9 +70,9 @@
       const progress = Math.min(elapsed / duration, 1);
       // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.floor(eased * target).toString();
+      el.textContent = '+' + Math.floor(eased * target).toString();
       if (progress < 1) requestAnimationFrame(tick);
-      else el.textContent = target.toString();
+      else el.textContent = '+' + target.toString();
     }
 
     requestAnimationFrame(tick);
