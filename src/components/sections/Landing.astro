@@ -48,8 +48,10 @@ import landingImg from "../../images/landing_page.jpg";
   </div>
 
   <!-- Scroll arrow -->
-  <div
-    class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce-slow"
+  <button
+    id="scroll-down-btn"
+    aria-label="Przewiń do następnej sekcji"
+    class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-bounce-slow cursor-pointer bg-transparent border-none p-0"
   >
     <span class="text-[10px] tracking-[0.3em] uppercase text-white/40 pl-[0.3em]">
       Przewiń
@@ -65,5 +67,11 @@ import landingImg from "../../images/landing_page.jpg";
       <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"
       ></path>
     </svg>
-  </div>
+  </button>
+
+  <script>
+    document.getElementById("scroll-down-btn")?.addEventListener("click", () => {
+      document.getElementById("oferta")?.scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
 </section>
