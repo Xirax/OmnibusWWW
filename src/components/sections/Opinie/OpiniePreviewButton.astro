@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import opinionAvatar from '../../../assets/opinie/avatar.svg';
+
+const opinionPreview = {
+  alias: 'Jan Kowalski',
+  desc: 'Współpraca na najwyższym poziomie. Profesjonalne podejście, kreatywność i terminowość — efekty przerosły nasze oczekiwania. Zdecydowanie polecamy każdemu, na różnorakie eventy!',
+};
+---
+
+<button
+  type="button"
+  data-opinie-modal-open
+  aria-label="Zobacz opinie"
+  class="opinie-preview bg-primary-light rounded-[2px] mb-8 transition duration-150 hover:brightness-125"
+>
+  <Image
+    src={opinionAvatar}
+    alt={opinionPreview.alias}
+    width={24}
+    height={24}
+    class="opinie-preview__avatar"
+  />
+  <span class="opinie-preview__alias text-accent tracking-[0.05em]">{opinionPreview.alias}</span>
+  <span class="opinie-preview__desc text-white/85">{opinionPreview.desc}</span>
+  <span class="opinie-preview__more text-accent">Zobacz więcej</span>
+</button>
+
+<style>
+  /* Mini opinion teaser — mirrors a single modal opinion, but compact */
+  .opinie-preview {
+    position: relative;
+    width: 350px;
+    max-width: 100%;
+    height: 90px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-family: inherit;
+    cursor: pointer;
+    overflow: visible;
+  }
+
+  /* Avatar circle whose center sits on the card's top-left corner */
+  .opinie-preview__avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+  }
+
+  .opinie-preview__alias {
+    margin: 0 0 4px 24px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  /* Clip the description with a smooth gradient fade at the bottom */
+  .opinie-preview__desc {
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 35%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 35%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+  }
+
+  .opinie-preview__more {
+    margin-top: 4px;
+    font-size: 12px;
+    text-decoration: underline;
+    align-self: flex-end;
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import OpinieModal from '../../OpinieModal/OpinieModal.astro';
+import OpiniePreviewButton from './OpiniePreviewButton.astro';
 ---
 
 <section id="opinie" class="py-24 px-3">
@@ -41,6 +43,7 @@
 
     <!-- Column 3: Review button -->
     <div class="bg-primary flex flex-col items-center justify-center py-16 px-8 text-center">
+      <OpiniePreviewButton />
       <p class="text-fsmall tracking-[0.2em] uppercase text-white/40 mb-8">Byłeś z nas zadowolony?</p>
       <a
         href="https://g.page/r/CSf9gvLX_AMDEAE/review"
@@ -57,38 +60,8 @@
 
   </div>
 
+  <OpinieModal />
+
 </section>
 
-<script>
-  function animateCounter(el: HTMLElement) {
-    const target = parseInt(el.dataset.target ?? '0', 10);
-    const duration = 1800;
-    const start = performance.now();
-
-    function tick(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = '+' + Math.floor(eased * target).toString();
-      if (progress < 1) requestAnimationFrame(tick);
-      else el.textContent = '+' + target.toString();
-    }
-
-    requestAnimationFrame(tick);
-  }
-
-  // Trigger when section scrolls into view
-  const counters = document.querySelectorAll<HTMLElement>('[data-counter]');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target as HTMLElement);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.4 });
-
-  counters.forEach(el => observer.observe(el));
-</script>
+<script src="./opinie.js"></script>
