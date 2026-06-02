@@ -1,8 +1,14 @@
 ---
-const imageModules = import.meta.glob('/src/images/portfolio/*', { eager: true });
+const videoModules = import.meta.glob('/src/images/portfolio/videos/*.{gif,GIF}', { eager: true });
+const imageModules = import.meta.glob('/src/images/portfolio/images/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+
+const videos = Object.entries(videoModules).map(([path, mod]: [string, any]) => ({
+  src: (mod as any).default?.src ?? (mod as any).default,
+  id: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '',
+}));
 
 const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => ({
-  src: (mod as any).default.src,
+  src: (mod as any).default?.src ?? (mod as any).default,
   id: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '',
 }));
 ---
@@ -16,185 +22,89 @@ const images = Object.entries(imageModules).map(([path, mod]: [string, any]) => 
     <div class="h-px bg-white/20 flex-1"></div>
   </div>
 
-  <!-- Slider track -->
-  <div class="relative w-full" style="padding: 40px 0;">
-    <div class="absolute inset-x-0 bg-primary-light hidden md:block" style="top: 300px; bottom: 300px;"></div>
+  <!-- Two full-width columns -->
+  <div class="grid grid-cols-1 md:grid-cols-2 w-full">
 
-    <!-- Images row -->
-    <div
-      id="portfolio-track"
-      class="relative flex items-center justify-around px-4 gap-4"
-      style="overflow: visible;"
+    <!-- Left column: looping videos (gifs) -->
+    <a
+      id="portfolio-video"
+      href="/gallery?type=video"
+      class="relative group block overflow-hidden h-[50vh] md:h-[75vh] bg-primary-light"
     >
-      <!-- Prev arrow (left side image) -->
-      <div
-        id="slide-prev"
-        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden hidden md:flex"
-        style="flex: 1; max-height: 350px;"
-      >
-        <img
-          id="img-prev"
-          src=""
-          alt=""
-          class="w-full h-full object-cover"
-        />
-        <!-- Arrow overlay -->
-        <div class="absolute inset-0 flex items-center justify-center bg-primary/40 group-hover:bg-primary/60 transition-colors duration-300">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white/80" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-          </svg>
-        </div>
+      <img
+        id="video-current"
+        src=""
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+      />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/50 transition-all duration-300">
+        <span class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          Zobacz więcej video...
+        </span>
       </div>
+    </a>
 
-      <!-- Center (main) image -->
-      <div
-        id="portfolio-center"
-        class="relative shrink-0 cursor-pointer group overflow-hidden flex items-center justify-center"
-        style="flex: 3; max-height: 650px;"
-      >
-        <img
-          id="img-current"
-          src=""
-          alt=""
-          class="max-h-[650px] w-auto max-w-full"
-        />
-        <!-- View more overlay -->
-        <div id="img-current-overlay" class="absolute inset-0 flex items-center justify-center bg-primary/0 group-hover:bg-primary/50 transition-all duration-300">
-          <span class="text-fsmall tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Zobacz więcej...
-          </span>
-        </div>
+    <!-- Right column: looping images -->
+    <a
+      id="portfolio-image"
+      href="/gallery?type=foto"
+      class="relative group block overflow-hidden h-[50vh] md:h-[75vh] bg-primary-light"
+    >
+      <img
+        id="image-current"
+        src=""
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+      />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/50 transition-all duration-300">
+        <span class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          Zobacz więcej foto...
+        </span>
       </div>
+    </a>
 
-      <!-- Next arrow (right side image) -->
-      <div
-        id="slide-next"
-        class="relative shrink-0 cursor-pointer group aspect-video overflow-hidden hidden md:flex"
-        style="flex: 1; max-height: 350px;"
-      >
-        <img
-          id="img-next"
-          src=""
-          alt=""
-          class="w-full h-full object-cover"
-        />
-        <!-- Arrow overlay -->
-        <div class="absolute inset-0 flex items-center justify-center bg-primary/40 group-hover:bg-primary/60 transition-colors duration-300">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-white/80" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Dots -->
-  <div id="portfolio-dots" class="flex items-center justify-center gap-2 mt-8">
   </div>
 
 </section>
 
-<style is:global>
-  #portfolio-dots button {
-    width: 0.75rem;
-    height: 0.75rem;
-    border-radius: 0.125rem;
-    border: none;
-    background-color: rgb(255 255 255 / 0.25);
-    cursor: pointer;
-    transition: background-color 300ms;
-  }
-  #portfolio-dots button:hover {
-    background-color: rgb(255 255 255 / 0.4);
-  }
-  #portfolio-dots button.is-active {
-    background-color: rgb(255 255 255);
-  }
+<script define:vars={{ videos, images }}>
+  const videoEl = document.getElementById('video-current');
+  const imageEl = document.getElementById('image-current');
 
-  @media (max-width: 767px) {
-    #portfolio-center {
-      flex: 1 !important;
-      max-height: none !important;
-      width: 100%;
+  let vi = 0;
+  let ii = 0;
+
+  const SLIDE_MS = 4000;
+  const FADE_MS = 500;
+
+  function swap(el, list, index) {
+    if (!el || list.length === 0) return;
+    const next = list[index];
+    // Fade out, swap source, fade back in
+    el.style.opacity = '0';
+    const onFaded = () => {
+      el.src = next.src;
+      el.alt = next.id;
+      requestAnimationFrame(() => { el.style.opacity = '1'; });
+    };
+    if (el.src) {
+      window.setTimeout(onFaded, FADE_MS);
+    } else {
+      onFaded();
     }
   }
-</style>
 
-<script define:vars={{ images }}>
-    console.log('images:', images);
-  let current = 0;
-  const total = images.length;
+  // Initial render (no fade)
+  if (videos.length) { videoEl.src = videos[0].src; videoEl.alt = videos[0].id; videoEl.style.opacity = '1'; }
+  if (images.length) { imageEl.src = images[0].src; imageEl.alt = images[0].id; imageEl.style.opacity = '1'; }
 
-  const imgPrev    = document.getElementById('img-prev');
-  const imgCurrent = document.getElementById('img-current');
-  const imgNext    = document.getElementById('img-next');
-  const overlay    = document.getElementById('img-current-overlay');
-  const dotsEl     = document.getElementById('portfolio-dots');
-  const btnPrev    = document.getElementById('slide-prev');
-  const btnNext    = document.getElementById('slide-next');
-
-  // Build dots
-  images.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.setAttribute('aria-label', `Slajd ${i + 1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dotsEl.appendChild(dot);
-  });
-
-  function wrap(n) {
-    return ((n % total) + total) % total;
+  // Single synced loop advancing both columns one by one
+  if (videos.length > 1 || images.length > 1) {
+    window.setInterval(() => {
+      vi = (vi + 1) % videos.length;
+      ii = (ii + 1) % images.length;
+      swap(videoEl, videos, vi);
+      swap(imageEl, images, ii);
+    }, SLIDE_MS);
   }
-
-  function goTo(n) {
-    current = wrap(n);
-    update();
-  }
-
-  function update() {
-    const prev = wrap(current - 1);
-    const next = wrap(current + 1);
-
-    imgPrev.src    = images[prev].src;
-    imgPrev.alt    = images[prev].id;
-    imgCurrent.src = images[current].src;
-    imgCurrent.alt = images[current].id;
-    imgNext.src    = images[next].src;
-    imgNext.alt    = images[next].id;
-
-    overlay.dataset.id = images[current].id;
-
-    dotsEl.querySelectorAll('button').forEach((d, i) => {
-      d.classList.toggle('is-active', i === current);
-    });
-  }
-
-  btnPrev.addEventListener('click', () => goTo(current - 1));
-  btnNext.addEventListener('click', () => goTo(current + 1));
-
-  // Touch/swipe support for mobile
-  let touchStartX = 0;
-  const SWIPE_THRESHOLD = 50;
-
-  const track = document.getElementById('portfolio-track');
-  track.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  track.addEventListener('touchend', (e) => {
-    const delta = touchStartX - e.changedTouches[0].screenX;
-    if (Math.abs(delta) > SWIPE_THRESHOLD) {
-      if (delta > 0) goTo(current + 1);
-      else goTo(current - 1);
-    }
-  }, { passive: true });
-
-  // "View more" click — will become gallery link later
-  overlay.addEventListener('click', () => {
-    const id = overlay.dataset.id;
-    if (id) window.location.href = `/gallery?id=${id}`;
-  });
-
-  // Init
-  update();
 </script>
