@@ -14,13 +14,38 @@ const socialLinks = [
   { href: "https://www.linkedin.com/in/omnibus-media-studio-a618253b8/",   label: "LinkedIn",  icon: iconLinkedIn },
 ];
 
-const navLinks = [
-  { href: "#oferta",    label: "Oferta"    },
-  { href: "#portfolio", label: "Portfolio" },
-  { href: "#o-nas",     label: "O nas"     },
-  { href: "#opinie",    label: "Opinie"    },
-  { href: "#kontakt",   label: "Kontakt"   },
-];
+type NavLink = { href: string; label: string };
+
+// Eagerly load every header.json living in the pages tree. Each file's
+// directory maps to the route it belongs to, e.g.
+//   /src/pages/header.json            -> "/"
+//   /src/pages/fotoGallery/header.json -> "/fotoGallery"
+const headerFiles = import.meta.glob<NavLink[]>("/src/pages/**/header.json", {
+  eager: true,
+  import: "default",
+});
+
+const navByRoute: Record<string, NavLink[]> = {};
+for (const [path, links] of Object.entries(headerFiles)) {
+  const route =
+    path.replace("/src/pages", "").replace(/\/header\.json$/, "") || "/";
+  navByRoute[route] = links;
+}
+
+// Pick the header.json whose directory is the longest prefix of the current
+// path, so a page like /fotoGallery can override the root nav links.
+const pathname = Astro.url.pathname;
+let navLinks: NavLink[] = navByRoute["/"] ?? [];
+let bestLen = -1;
+for (const [route, links] of Object.entries(navByRoute)) {
+  if (route === "/") continue;
+  if (pathname === route || pathname.startsWith(route + "/")) {
+    if (route.length > bestLen) {
+      bestLen = route.length;
+      navLinks = links;
+    }
+  }
+}
 ---
 
 <header
@@ -30,13 +55,26 @@ const navLinks = [
   <div
     class="max-w-7xl mx-auto px-8 h-[70px] flex items-center justify-between"
   >
-    <a href="/">
-      <img
-        src={logo.src}
-        alt="Omnibus Media Studio"
-        class="h-10 w-auto object-contain"
-      />
-    </a>
+    <div class="flex items-center gap-4">
+      {pathname !== "/" && (
+        <a
+          href="/"
+          aria-label="Powrót na stronę główną"
+          class="text-white/70 hover:text-accent transition-colors duration-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+      )}
+      <a href="/">
+        <img
+          src={logo.src}
+          alt="Omnibus Media Studio"
+          class="h-10 w-auto object-contain"
+        />
+      </a>
+    </div>
     <!-- Nav -->
     <nav class="font-ironclad text-fsmall hidden md:flex items-center gap-10">
       {navLinks.map(({ href, label }) => (

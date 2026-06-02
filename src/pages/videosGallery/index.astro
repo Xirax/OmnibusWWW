@@ -1,0 +1,77 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header/Header.astro";
+
+import "../../styles/index.css";
+import videos from "./videos.json";
+
+// Extract the 11-char video id from a watch / youtu.be / shorts / embed URL.
+const getYouTubeId = (url: string): string => {
+  const m = url.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/|v\/))([\w-]{11})/
+  );
+  return m ? m[1] : "";
+};
+
+const longs = (videos as string[])
+  .map((url) => ({ url, id: getYouTubeId(url) }))
+  .filter((v) => v.id);
+
+// Order follows the nav anchors in this folder's header.json.
+const sections = [
+  { id: "shorts", title: "Shorts",        videos: [] as { url: string; id: string }[] },
+  { id: "longs",  title: "Długi format",  videos: longs },
+];
+---
+
+<BaseLayout title="Wideo — Omnibus Media Studio">
+<div class="overflow-x-hidden">
+  <!-- ========== HEADER ========== -->
+  <Header />
+
+  <main class="pt-[70px]">
+
+    <!-- ========== PAGE TITLE ========== -->
+    <div class="text-center pt-16 pb-4 px-6">
+      <p class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-accent mb-4">Omnibus Media Studio</p>
+      <h1 class="font-display text-4xl md:text-6xl text-white">Galeria wideo</h1>
+    </div>
+
+    <!-- ========== VIDEO SECTIONS ========== -->
+    {sections.map((section) => (
+      <section id={section.id} class="py-16 px-3 scroll-mt-[70px]">
+
+        <!-- Section header -->
+        <div class="flex items-center gap-4 mb-12">
+          <div class="h-px bg-white/20 w-12 shrink-0"></div>
+          <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">{section.title}</span>
+          <div class="h-px bg-white/20 flex-1"></div>
+        </div>
+
+        {section.videos.length > 0 ? (
+          <!-- ~3 videos per row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {section.videos.map((v) => (
+              <div class="aspect-video overflow-hidden bg-primary-light">
+                <iframe
+                  src={`https://www.youtube.com/embed/${v.id}`}
+                  title="Omnibus Media Studio — wideo"
+                  loading="lazy"
+                  class="w-full h-full"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p class="font-ironclad text-fsmall tracking-[0.2em] uppercase text-white/40 px-3">Wkrótce...</p>
+        )}
+
+      </section>
+    ))}
+
+  </main>
+</div>
+</BaseLayout>

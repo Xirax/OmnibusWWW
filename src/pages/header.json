@@ -1,0 +1,7 @@
+[
+  { "href": "#oferta",    "label": "Oferta"    },
+  { "href": "#portfolio", "label": "Portfolio" },
+  { "href": "#o-nas",     "label": "O nas"     },
+  { "href": "#opinie",    "label": "Opinie"    },
+  { "href": "#kontakt",   "label": "Kontakt"   }
+]

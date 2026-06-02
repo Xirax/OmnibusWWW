@@ -1,0 +1,194 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/Header/Header.astro";
+
+import "../../styles/index.css";
+
+const portraitModules = import.meta.glob('/src/images/gallery/portrait/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+const eventsModules   = import.meta.glob('/src/images/gallery/events/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+const partiesModules  = import.meta.glob('/src/images/gallery/parties/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+const animalsModules  = import.meta.glob('/src/images/gallery/animals/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+
+const toList = (modules: Record<string, any>) =>
+  Object.entries(modules).map(([path, mod]: [string, any]) => ({
+    src: (mod as any).default?.src ?? (mod as any).default,
+    id: path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "",
+  }));
+
+// Order follows the nav anchors in this folder's header.json.
+const sections = [
+  { id: "portrety",  title: "Portrety",                images: toList(portraitModules) },
+  { id: "eventy",    title: "Eventy",                  images: toList(eventsModules)   },
+  { id: "imprezy",   title: "Imprezy okolicznościowe", images: toList(partiesModules)  },
+  { id: "zwierzaki", title: "Zwierzaki",               images: toList(animalsModules)  },
+];
+---
+
+<BaseLayout title="Galeria — Omnibus Media Studio">
+<div class="overflow-x-hidden">
+  <!-- ========== HEADER ========== -->
+  <Header />
+
+  <main class="pt-[70px]">
+
+    <!-- ========== PAGE TITLE ========== -->
+    <div class="text-center pt-16 pb-4 px-6">
+      <p class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-accent mb-4">Omnibus Media Studio</p>
+      <h1 class="font-display text-4xl md:text-6xl text-white">Galeria zdjęć</h1>
+    </div>
+
+    <!-- ========== GALLERY SECTIONS ========== -->
+    {sections.map((section, si) => (
+      <section id={section.id} class="py-16 px-3 scroll-mt-[70px]">
+
+        <!-- Section header -->
+        <div class="flex items-center gap-4 mb-12">
+          <div class="h-px bg-white/20 w-12 shrink-0"></div>
+          <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">{section.title}</span>
+          <div class="h-px bg-white/20 flex-1"></div>
+        </div>
+
+        <!-- Masonry grid -->
+        <div class="columns-1 sm:columns-2 lg:columns-3 gap-3">
+          {section.images.map((img, ii) => (
+            <button
+              type="button"
+              class="gallery-item block w-full mb-3 overflow-hidden bg-primary-light group break-inside-avoid cursor-zoom-in"
+              data-section={si}
+              data-index={ii}
+              data-src={img.src}
+              data-title={section.title}
+            >
+              <img
+                src={img.src}
+                alt={section.title}
+                loading="lazy"
+                class="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </button>
+          ))}
+        </div>
+
+      </section>
+    ))}
+
+  </main>
+
+  <!-- ========== LIGHTBOX ========== -->
+  <div
+    id="lightbox"
+    class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 select-none"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+  >
+    <!-- Close -->
+    <button
+      id="lb-close"
+      aria-label="Zamknij"
+      class="absolute top-4 right-5 z-10 text-white/70 hover:text-accent transition-colors duration-300"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Prev -->
+    <button
+      id="lb-prev"
+      aria-label="Poprzednie"
+      class="absolute left-2 sm:left-6 z-10 text-white/70 hover:text-accent transition-colors duration-300"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor" stroke-width="1.25" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Image -->
+    <img id="lb-img" src="" alt="" class="max-h-[88vh] max-w-[86vw] object-contain" />
+
+    <!-- Next -->
+    <button
+      id="lb-next"
+      aria-label="Następne"
+      class="absolute right-2 sm:right-6 z-10 text-white/70 hover:text-accent transition-colors duration-300"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12" fill="none" stroke="currentColor" stroke-width="1.25" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    <!-- Counter -->
+    <div id="lb-counter" class="absolute bottom-5 left-1/2 -translate-x-1/2 font-ironclad text-fsmall tracking-[0.2em] text-white/60"></div>
+  </div>
+</div>
+
+<script>
+  const lb       = document.getElementById("lightbox") as HTMLElement;
+  const lbImg    = document.getElementById("lb-img") as HTMLImageElement;
+  const counter  = document.getElementById("lb-counter") as HTMLElement;
+  const items    = Array.from(document.querySelectorAll<HTMLElement>(".gallery-item"));
+
+  // Group image sources by section so navigation stays within a section.
+  const groups: Record<string, string[]> = {};
+  for (const el of items) {
+    const s = el.dataset.section ?? "0";
+    (groups[s] ||= []).push(el.dataset.src ?? "");
+  }
+
+  let section = "0";
+  let index = 0;
+
+  function render() {
+    const list = groups[section] ?? [];
+    lbImg.src = list[index] ?? "";
+    counter.textContent = `${index + 1} / ${list.length}`;
+  }
+
+  function open(s: string, i: number) {
+    section = s;
+    index = i;
+    render();
+    lb.classList.remove("hidden");
+    lb.classList.add("flex");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function close() {
+    lb.classList.add("hidden");
+    lb.classList.remove("flex");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  function step(dir: number) {
+    const len = (groups[section] ?? []).length;
+    if (!len) return;
+    index = (index + dir + len) % len;
+    render();
+  }
+
+  for (const el of items) {
+    el.addEventListener("click", () =>
+      open(el.dataset.section ?? "0", Number(el.dataset.index ?? 0))
+    );
+  }
+
+  document.getElementById("lb-close")!.addEventListener("click", close);
+  document.getElementById("lb-prev")!.addEventListener("click", (e) => { e.stopPropagation(); step(-1); });
+  document.getElementById("lb-next")!.addEventListener("click", (e) => { e.stopPropagation(); step(1); });
+
+  // Click on the backdrop (not the image) closes.
+  lb.addEventListener("click", (e) => {
+    if (e.target === lb) close();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (lb.classList.contains("hidden")) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") step(-1);
+    else if (e.key === "ArrowRight") step(1);
+  });
+</script>
+</BaseLayout>
