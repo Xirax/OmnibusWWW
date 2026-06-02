@@ -1,0 +1,88 @@
+---
+const videoModules = import.meta.glob('/src/images/portfolio/videos/*.{gif,GIF}', { eager: true });
+const horizModules = import.meta.glob('/src/images/portfolio/images/horizontal/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+const vertModules  = import.meta.glob('/src/images/portfolio/images/vertical/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
+
+const toList = (modules: Record<string, any>) =>
+  Object.entries(modules).map(([path, mod]: [string, any]) => ({
+    src: (mod as any).default?.src ?? (mod as any).default,
+    id: path.split('/').pop()?.replace(/\.[^.]+$/, '') ?? '',
+  }));
+
+const videos = toList(videoModules);
+const horizontals = toList(horizModules);
+const verticals = toList(vertModules);
+---
+
+<section id="portfolio" class="py-24">
+
+  <!-- Section header -->
+  <div class="flex items-center gap-4 mb-16 px-3">
+    <div class="h-px bg-white/20 w-12 shrink-0"></div>
+    <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">Portfolio</span>
+    <div class="h-px bg-white/20 flex-1"></div>
+  </div>
+
+  <!-- Two full-width columns -->
+  <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-1">
+
+    <!-- Left column: looping videos (gifs) -->
+    <a
+      id="portfolio-video"
+      href="/gallery?type=video"
+      class="relative group block overflow-hidden h-[50vh] md:h-[85vh] bg-primary-light"
+    >
+      <img
+        id="video-current"
+        src=""
+        alt=""
+        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+      />
+      <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/50 transition-all duration-300">
+        <span class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          Zobacz więcej video...
+        </span>
+      </div>
+    </a>
+
+    <!-- Right column: 3 looping photos (2 horizontal stacked + 1 vertical) -->
+    <a
+      id="portfolio-image"
+      href="/gallery?type=foto"
+      class="relative group block overflow-hidden h-[50vh] md:h-[85vh] bg-primary-light md:col-span-2"
+    >
+      <div class="absolute inset-0 grid grid-cols-3 gap-1">
+        <!-- Left 3/5: two horizontal images, one below the other -->
+        <div class="col-span-2 grid gap-1 h-full">
+          <div class="relative overflow-hidden">
+            <img id="foto-h1" src="" alt="" class="w-full h-full object-contain"  />
+          </div>
+          <div class="relative overflow-hidden">
+            <img id="foto-h2" src="" alt="" class="w-full h-full object-contain" />
+          </div>
+        </div>
+        <!-- Right 2/5: one vertical image, full height -->
+        <div class="col-span-1 relative overflow-hidden h-full">
+          <img id="foto-v" src="" alt="" class="w-full h-full object-cover" />
+        </div>
+      </div>
+      <div class="absolute inset-0 z-10 flex items-center justify-center bg-black/0 group-hover:bg-black/50 transition-all duration-300">
+        <span class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          Zobacz więcej foto...
+        </span>
+      </div>
+    </a>
+
+  </div>
+
+</section>
+
+<style is:global>
+  @keyframes portfolioZoom {
+    from { opacity: 0; transform: scale(1.18); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+</style>
+
+<script type="application/json" id="portfolio-data" set:html={JSON.stringify({ videos, horizontals, verticals })}></script>
+<script src="./portfolio.js"></script>
