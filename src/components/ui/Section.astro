@@ -1,0 +1,21 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  /** Drop horizontal padding so content can run edge to edge (the header keeps its inset). */
+  fullBleed?: boolean;
+  class?: string;
+}
+
+const { id, title, fullBleed = false, class: className } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={["py-12", !fullBleed && "px-3 min-[1100px]:px-[45px]", className]}
+>
+  <SectionHeader title={title} class={fullBleed ? "px-3" : undefined} />
+  <slot />
+</section>

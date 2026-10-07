@@ -1,4 +1,5 @@
 ---
+import Section from '../ui/Section.astro';
 import omnibusImg from '../../images/onas/omnibus.png';
 import franekImg from '../../images/onas/franek.JPG';
 import dominikImg from '../../images/onas/dominik.JPG';
@@ -19,14 +20,7 @@ const dominik = {
 };
 ---
 
-<section id="o-nas" class="py-24 px-4 min-[1100px]:px-[45px]">
-
-  <!-- Section header -->
-  <div class="flex items-center gap-4 mb-20">
-    <div class="h-px bg-white/20 w-12 shrink-0"></div>
-    <span class="font-ironclad text-md tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">O nas</span>
-    <div class="h-px bg-white/20 flex-1"></div>
-  </div>
+<Section id="o-nas" title="O nas">
 
   <div class="flex flex-col gap-28">
 
@@ -88,7 +82,7 @@ const dominik = {
 
   </div>
 
-</section>
+</Section>
 
 <style>
   .onas-image {

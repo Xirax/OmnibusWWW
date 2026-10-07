@@ -1,16 +1,10 @@
 ---
+import Section from '../../ui/Section.astro';
 import OpinieModal from '../../OpinieModal/OpinieModal.astro';
 import OpiniePreviewButton from './OpiniePreviewButton.astro';
 ---
 
-<section id="opinie" class="py-24 px-3">
-
-  <!-- Section header -->
-  <div class="flex items-center gap-4 mb-16 px-3">
-    <div class="h-px bg-white/20 w-12 shrink-0"></div>
-    <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap">Opinie</span>
-    <div class="h-px bg-white/20 flex-1"></div>
-  </div>
+<Section id="opinie" title="Opinie">
 
   <!-- 3 columns -->
   <div class="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
@@ -62,6 +56,6 @@ import OpiniePreviewButton from './OpiniePreviewButton.astro';
 
   <OpinieModal />
 
-</section>
+</Section>
 
 <script src="./opinie.js"></script>

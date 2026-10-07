@@ -1,4 +1,5 @@
 ---
+import Section from '../ui/Section.astro';
 import { Image } from 'astro:assets';
 import fotografiaImg from '../../images/oferta/fotografia.jpg';
 import filmImg from '../../images/oferta/film.jpg';
@@ -23,14 +24,7 @@ const subsections = [
 ];
 ---
 
-<section id="oferta" class="py-24 px-4 min-[1100px]:px-[45px]">
-
-  <!-- Section header --> 
-  <div class="flex items-center gap-4 mb-20">
-    <div class="h-px bg-white/20 w-12 shrink-0"></div>
-    <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">Oferta</span>
-    <div class="h-px bg-white/20 flex-1"></div>
-  </div>
+<Section id="oferta" title="Oferta">
 
   <!-- Subsections -->
   <div class="flex flex-col gap-28">
@@ -60,7 +54,7 @@ const subsections = [
     ))}
   </div>
 
-</section>
+</Section>
 
 <style>
   .oferta-image {

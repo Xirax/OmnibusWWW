@@ -1,4 +1,5 @@
 ---
+import Section from '../../components/ui/Section.astro';
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header/Header.astro";
 
@@ -39,14 +40,7 @@ const sections = [
 
     <!-- ========== VIDEO SECTIONS ========== -->
     {sections.map((section) => (
-      <section id={section.id} class="py-16 px-3 scroll-mt-[70px]">
-
-        <!-- Section header -->
-        <div class="flex items-center gap-4 mb-12">
-          <div class="h-px bg-white/20 w-12 shrink-0"></div>
-          <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">{section.title}</span>
-          <div class="h-px bg-white/20 flex-1"></div>
-        </div>
+      <Section id={section.id} title={section.title} class="scroll-mt-[70px]">
 
         {section.videos.length > 0 ? (
           <!-- ~3 videos per row -->
@@ -69,7 +63,7 @@ const sections = [
           <p class="font-ironclad text-fsmall tracking-[0.2em] uppercase text-white/40 px-3">Wkrótce...</p>
         )}
 
-      </section>
+      </Section>
     ))}
 
   </main>

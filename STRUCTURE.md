@@ -26,6 +26,8 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | `sections/Opinie/Opinie.astro` + `opinie.js` | `#opinie` – animated counters (`data-counter data-target`), Google review link, preview button, modal |
 | `sections/Opinie/OpiniePreviewButton.astro` | Teaser card (hard-coded placeholder "Jan Kowalski"), opens modal via `data-opinie-modal-open` |
 | `OpinieModal/OpinieModal.astro` + `opiniemodal.js` | Reviews popup. Reads `src/assets/opinie/<folder>/{desc.txt,alias.txt,avatar.*}`; fallback `avatar.png` |
+| `ui/Section.astro` | Shared section wrapper (`id`, `title`, `fullBleed?`, `class?`): vertical/horizontal padding + header. **Change section spacing here.** Used by all sections and both galleries |
+| `ui/SectionHeader.astro` | line–label–line heading (used by `Section`; own margin-bottom here) |
 | `sections/Kontakt.astro` | `#kontakt` footer – phones, email, socials, "Napisz do nas" (Gmail), logo |
 
 ## Content / data (edit here, no code needed)
@@ -50,11 +52,10 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 
 ## Known issues / refactor backlog
 - `socialLinks` array duplicated in `Header.astro` and `Kontakt.astro` → move to `src/data/`.
-- Section header markup (line–label–line) repeated ~7× → `ui/SectionHeader.astro`.
 - Lightbox duplicated in `fotoGallery/index.astro` and `gallery.astro` → `ui/Lightbox`.
 - Text+image block repeated in `Oferta`/`ONas`; identical scroll-reveal scripts → shared component/script.
 - Google review URL duplicated (`Opinie.astro`, `OpinieModal.astro`).
-- `ONas.astro` uses `text-md` (should be `text-fmd`); `ONas` uses `<img>` instead of `<Image>`.
+- `ONas` uses `<img>` instead of `<Image>`.
 - Fonts loaded twice (Cormorant/Montserrat in layout, Jost/Jura/Literata/Space Mono in CSS) – most unused.
 - Unused/duplicate images: `src/images/dominik.JPG`, `src/images/franek.JPG` (copies in `onas/`); `portfolio/videos/test.gif`.
 - `README.md` is the default Astro template.

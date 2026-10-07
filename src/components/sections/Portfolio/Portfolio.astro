@@ -1,4 +1,5 @@
 ---
+import Section from '../../ui/Section.astro';
 const videoModules = import.meta.glob('/src/images/portfolio/videos/*.{gif,GIF}', { eager: true });
 const horizModules = import.meta.glob('/src/images/portfolio/images/horizontal/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
 const vertModules  = import.meta.glob('/src/images/portfolio/images/vertical/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
@@ -14,14 +15,7 @@ const horizontals = toList(horizModules);
 const verticals = toList(vertModules);
 ---
 
-<section id="portfolio" class="py-24">
-
-  <!-- Section header -->
-  <div class="flex items-center gap-4 mb-16 px-3">
-    <div class="h-px bg-white/20 w-12 shrink-0"></div>
-    <span class="font-ironclad text-fmd tracking-[0.3em] uppercase text-white whitespace-nowrap pl-2">Portfolio</span>
-    <div class="h-px bg-white/20 flex-1"></div>
-  </div>
+<Section id="portfolio" title="Portfolio" fullBleed>
 
   <!-- Two full-width columns -->
   <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-1">
@@ -75,7 +69,7 @@ const verticals = toList(vertModules);
 
   </div>
 
-</section>
+</Section>
 
 <style is:global>
   @keyframes portfolioZoom {
