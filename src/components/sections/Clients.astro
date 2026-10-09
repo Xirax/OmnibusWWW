@@ -1,0 +1,74 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Section from "../ui/Section.astro";
+
+// Drop a logo into src/images/clients/ and it shows up here – the file name becomes the alt text.
+const modules = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/images/clients/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP,svg,SVG}",
+  { eager: true },
+);
+
+const logos = Object.entries(modules).map(([path, mod]) => ({
+  src: mod.default,
+  name:
+    path
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "") ?? "",
+}));
+
+// Constant speed regardless of how many logos there are.
+const duration = `${logos.length * 3}s`;
+---
+
+{
+  logos.length > 0 && (
+    <Section id="zaufali-nam" title="Zaufali nam">
+      <div class="clients-marquee mx-auto w-4/5 overflow-hidden">
+        <ul class="clients-track flex w-max" style={`--duration: ${duration}`}>
+          {[0, 1].map((copy) =>
+            logos.map(({ src, name }) => (
+              <li
+                class="shrink-0 px-6 md:px-10"
+                aria-hidden={copy === 1 ? "true" : undefined}
+              >
+                <Image
+                  src={src}
+                  alt={copy === 0 ? `Logo: ${name}` : ""}
+                  height={160}
+                  class="h-16 w-36 object-contain md:h-20 md:w-44"
+                />
+              </li>
+            )),
+          )}
+        </ul>
+      </div>
+    </Section>
+  )
+}
+
+<style>
+  .clients-marquee {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 15%,
+      black 85%,
+      transparent
+    );
+  }
+
+  /* The list is rendered twice, so shifting by half loops seamlessly.
+     Intentionally not paused for prefers-reduced-motion: a static strip would
+     leave the logos beyond the 80% viewport permanently hidden. */
+  .clients-track {
+    animation: clients-scroll var(--duration) linear infinite;
+  }
+
+  @keyframes clients-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

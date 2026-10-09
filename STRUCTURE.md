@@ -4,7 +4,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 ## Routes (`src/pages/`)
 | Route | File | Content |
 |---|---|---|
-| `/` | `index.astro` | One-pager: Header → Landing → Oferta → Portfolio → ONas → Opinie → Kontakt |
+| `/` | `index.astro` | One-pager: Header → Landing → Oferta → Portfolio → ONas → Opinie → Clients → Kontakt |
 | `/fotoGallery` | `fotoGallery/index.astro` | Photo masonry in 4 sections (+ inline lightbox script) |
 | `/videosGallery` | `videosGallery/index.astro` | YouTube embeds: `shorts` (empty → "Wkrótce...") + `longs` |
 | `/gallery?id=…` | `gallery.astro` | **Legacy**, not linked anywhere (old query-param gallery) – candidate to delete |
@@ -28,6 +28,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | `OpinieModal/OpinieModal.astro` + `opiniemodal.js` | Reviews popup. Reads `src/assets/opinie/<folder>/{desc.txt,alias.txt,avatar.*}`; fallback `avatar.png` |
 | `ui/Section.astro` | Shared section wrapper (`id`, `title`, `fullBleed?`, `class?`): vertical/horizontal padding + header. **Change section spacing here.** Used by all sections and both galleries |
 | `ui/SectionHeader.astro` | line–label–line heading (used by `Section`; own margin-bottom here) |
+| `sections/Clients.astro` | `#zaufali-nam` "Zaufali nam" – auto-scrolling logo marquee (80% width, faded edges), logos via `import.meta.glob`; hidden if folder empty |
 | `sections/Kontakt.astro` | `#kontakt` footer – phones, email, socials, "Napisz do nas" (Gmail), logo |
 
 ## Content / data (edit here, no code needed)
@@ -36,6 +37,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | Photo gallery | `src/images/gallery/{portrait,events,parties,animals}/` (auto via `import.meta.glob`) |
 | Portfolio slideshow | `src/images/portfolio/images/{horizontal,vertical}/`, GIFs in `portfolio/videos/` |
 | YouTube videos | `src/pages/videosGallery/videos.json` (array of URLs; any YT URL format) |
+| Client logos | `src/images/clients/` (auto; file name = alt text) |
 | Reviews | `src/assets/opinie/<name>/desc.txt + alias.txt (+ avatar.png/jpg/webp)` – **currently none** |
 | Offer / about texts | arrays in `Oferta.astro`, `ONas.astro` |
 | Counters (40 / 65) | `data-target` in `Opinie.astro` |
