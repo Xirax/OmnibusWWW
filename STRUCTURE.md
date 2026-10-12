@@ -6,7 +6,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 |---|---|---|
 | `/` | `index.astro` | One-pager: Header → Landing → Oferta → Portfolio → ONas → Opinie → Clients → Kontakt |
 | `/fotoGallery` | `fotoGallery/index.astro` | Photo masonry in 4 sections (+ inline lightbox script) |
-| `/videosGallery` | `videosGallery/index.astro` | YouTube embeds: `shorts` (empty → "Wkrótce...") + `longs` |
+| `/videosGallery` | `videosGallery/index.astro` (+ `_utils.js`: share URL → embed src) | Video embeds (YouTube / Canva): `shorts` (9:16) + `longs` (16:9); empty section → "Wkrótce..." |
 | `/gallery?id=…` | `gallery.astro` | **Legacy**, not linked anywhere (old query-param gallery) – candidate to delete |
 
 **Nav per route:** `header.json` placed in a page folder (`src/pages/header.json`, `fotoGallery/header.json`,
@@ -36,7 +36,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 |---|---|
 | Photo gallery | `src/images/gallery/{portrait,events,parties,animals}/` (auto via `import.meta.glob`) |
 | Portfolio slideshow | `src/images/portfolio/images/{horizontal,vertical}/`, GIFs in `portfolio/videos/` |
-| YouTube videos | `src/pages/videosGallery/videos.json` (array of URLs; any YT URL format) |
+| Videos | `src/pages/videosGallery/shorts.json` (Shorts) + `videos.json` (long format) – arrays of YouTube or Canva share URLs |
 | Client logos | `src/images/clients/` (auto; file name = alt text) |
 | Reviews | `src/assets/opinie/<name>/desc.txt + alias.txt (+ avatar.png/jpg/webp)` – **currently none** |
 | Offer / about texts | arrays in `Oferta.astro`, `ONas.astro` |
