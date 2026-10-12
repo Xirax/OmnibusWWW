@@ -25,7 +25,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | `sections/ONas.astro` | `#o-nas` – studio + Franciszek + Dominik bios (data objects in frontmatter) |
 | `sections/Opinie/Opinie.astro` + `opinie.js` | `#opinie` – animated counters (`data-counter data-target`), Google review link, preview button, modal |
 | `sections/Opinie/OpiniePreviewButton.astro` | Teaser card (hard-coded placeholder "Jan Kowalski"), opens modal via `data-opinie-modal-open` |
-| `OpinieModal/OpinieModal.astro` + `opiniemodal.js` | Reviews popup. Reads `src/assets/opinie/<folder>/{desc.txt,alias.txt,avatar.*}`; fallback `avatar.png` |
+| `OpinieModal/OpinieModal.astro` + `opiniemodal.js` | Reviews popup. Reads `src/assets/opinie/reviews.json` (Google export; name = `reviewer.displayName`, text = `comment` without the "(Translated by Google)" part), newest first; avatar `avatar.png` |
 | `ui/Section.astro` | Shared section wrapper (`id`, `title`, `fullBleed?`, `class?`): vertical/horizontal padding + header. **Change section spacing here.** Used by all sections and both galleries |
 | `ui/SectionHeader.astro` | line–label–line heading (used by `Section`; own margin-bottom here) |
 | `sections/Clients.astro` | `#zaufali-nam` "Zaufali nam" – auto-scrolling logo marquee (80% width, faded edges), logos via `import.meta.glob`; hidden if folder empty |
@@ -38,7 +38,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | Portfolio slideshow | `src/images/portfolio/images/{horizontal,vertical}/`, GIFs in `portfolio/videos/` |
 | Videos | `src/pages/videosGallery/shorts.json` (Shorts) + `videos.json` (long format) – arrays of YouTube or Canva share URLs |
 | Client logos | `src/images/clients/` (auto; file name = alt text) |
-| Reviews | `src/assets/opinie/<name>/desc.txt + alias.txt (+ avatar.png/jpg/webp)` – **currently none** |
+| Reviews | Replace `src/assets/opinie/reviews.json` with a fresh Google Business Profile export |
 | Offer / about texts | arrays in `Oferta.astro`, `ONas.astro` |
 | Counters (40 / 65) | `data-target` in `Opinie.astro` |
 | Section images | `src/images/{oferta,onas}/`, `landing_page.jpg`, `logo1.png` (footer), `logo2.png` (header) |

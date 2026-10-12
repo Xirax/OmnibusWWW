@@ -1,33 +1,20 @@
 ---
-import { Image } from 'astro:assets';
-import fallbackAvatar from '../../assets/opinie/avatar.png';
+import { Image } from "astro:assets";
+import avatar from "../../assets/opinie/avatar.png";
+import { reviews } from "../../assets/opinie/reviews.json";
 
-const descFiles = import.meta.glob('../../assets/opinie/*/desc.txt', { query: '?raw', import: 'default', eager: true });
-const aliasFiles = import.meta.glob('../../assets/opinie/*/alias.txt', { query: '?raw', import: 'default', eager: true });
-const avatarFiles = import.meta.glob('../../assets/opinie/*/avatar.{png,jpg,jpeg,webp}', { import: 'default', eager: true });
+// Google appends an English machine translation to each comment – show only the original.
+const TRANSLATION_MARKER = "(Translated by Google)";
+const originalText = (comment: string) =>
+  comment.split(TRANSLATION_MARKER)[0].trim();
 
-// Folder name is the second-to-last path segment (.../<folder>/file.ext)
-const folderOf = (path) => path.split('/').slice(-2, -1)[0];
-
-const byFolder = new Map();
-const ensure = (key) => {
-  if (!byFolder.has(key)) byFolder.set(key, {});
-  return byFolder.get(key);
-};
-
-for (const [path, content] of Object.entries(descFiles)) ensure(folderOf(path)).desc = String(content).trim();
-for (const [path, content] of Object.entries(aliasFiles)) ensure(folderOf(path)).alias = String(content).trim();
-for (const [path, img] of Object.entries(avatarFiles)) ensure(folderOf(path)).avatar = img;
-
-const opinions = [...byFolder.entries()]
-  .filter(([, o]) => o.desc && o.alias) // desc.txt + alias.txt are required
-  .map(([folder, o]) => ({
-    folder,
-    desc: o.desc,
-    alias: o.alias,
-    avatar: o.avatar ?? fallbackAvatar,
-  }))
-  .sort((a, b) => a.folder.localeCompare(b.folder));
+const opinions = reviews
+  .filter((r) => r.comment?.trim()) // rating-only reviews have nothing to show
+  .sort((a, b) => b.createTime.localeCompare(a.createTime))
+  .map((r) => ({
+    alias: r.reviewer.displayName,
+    desc: originalText(r.comment),
+  }));
 ---
 
 <div
@@ -46,8 +33,15 @@ const opinions = [...byFolder.entries()]
       rel="noopener noreferrer"
       class="flex items-center gap-2 bg-accent text-white text-fsmall tracking-[0.2em] uppercase px-4 py-2 hover:bg-accent-light transition-colors duration-300 shrink-0 rounded-[2px]"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4 shrink-0"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+        ></path>
       </svg>
       Wystaw nam opinię
     </a>
@@ -57,29 +51,41 @@ const opinions = [...byFolder.entries()]
       class="opinie-modal__close flex items-center justify-center w-8 h-8 shrink-0 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors duration-200"
       aria-label="Zamknij"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6L6 18"/>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 6l12 12M18 6L6 18"></path>
       </svg>
     </button>
   </div>
 
   <!-- Scrollable opinions list -->
   <div class="opinie-modal__list">
-    {opinions.map((o) => (
-      <article class="opinie-item bg-primary-light rounded-[2px]">
-        {o.avatar && (
+    {
+      opinions.map((o) => (
+        <article class="opinie-item bg-primary-light rounded-[2px]">
           <Image
-            src={o.avatar}
+            src={avatar}
             alt={o.alias}
             width={56}
             height={56}
             class="opinie-item__avatar"
           />
-        )}
-        <p class="opinie-item__alias text-accent tracking-[0.1em]">{o.alias}</p>
-        <p class="opinie-item__desc text-white/85">{o.desc}</p>
-      </article>
-    ))}
+          <p class="opinie-item__alias text-accent tracking-[0.1em]">
+            {o.alias}
+          </p>
+          <p class="opinie-item__desc text-white/85">{o.desc}</p>
+        </article>
+      ))
+    }
   </div>
 </div>
 
