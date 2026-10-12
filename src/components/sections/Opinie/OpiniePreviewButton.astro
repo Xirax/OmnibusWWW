@@ -1,11 +1,15 @@
 ---
-import { Image } from 'astro:assets';
-import opinionAvatar from '../../../assets/opinie/avatar.svg';
+import { Image } from "astro:assets";
+import opinionAvatar from "../../../assets/opinie/avatar.svg";
+import { opinions, type Opinion } from "../../../data/reviews";
 
-const opinionPreview = {
-  alias: 'Jan Kowalski',
-  desc: 'Współpraca na najwyższym poziomie. Profesjonalne podejście, kreatywność i terminowość — efekty przerosły nasze oczekiwania. Zdecydowanie polecamy każdemu, na różnorakie eventy!',
+// Placeholder teaser, shown only until the first real review is exported.
+const placeholderOpinion: Opinion = {
+  alias: "Jan Kowalski",
+  desc: "Współpraca na najwyższym poziomie. Profesjonalne podejście, kreatywność i terminowość — efekty przerosły nasze oczekiwania. Zdecydowanie polecamy każdemu, na różnorakie eventy!",
 };
+
+const opinionPreview = opinions[0] ?? placeholderOpinion;
 ---
 
 <button
@@ -21,7 +25,9 @@ const opinionPreview = {
     height={24}
     class="opinie-preview__avatar"
   />
-  <span class="opinie-preview__alias text-accent tracking-[0.05em]">{opinionPreview.alias}</span>
+  <span class="opinie-preview__alias text-accent tracking-[0.05em]"
+    >{opinionPreview.alias}</span
+  >
   <span class="opinie-preview__desc text-white/85">{opinionPreview.desc}</span>
   <span class="opinie-preview__more text-accent">Zobacz więcej</span>
 </button>
@@ -68,8 +74,20 @@ const opinionPreview = {
     font-size: 12px;
     line-height: 1.4;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 35%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.85) 35%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      rgba(0, 0, 0, 0.85) 35%,
+      rgba(0, 0, 0, 0.4) 70%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      rgba(0, 0, 0, 0.85) 35%,
+      rgba(0, 0, 0, 0.4) 70%,
+      transparent 100%
+    );
   }
 
   .opinie-preview__more {

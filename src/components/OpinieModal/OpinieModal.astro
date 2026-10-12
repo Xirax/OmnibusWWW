@@ -1,20 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import avatar from "../../assets/opinie/avatar.png";
-import { reviews } from "../../assets/opinie/reviews.json";
-
-// Google appends an English machine translation to each comment – show only the original.
-const TRANSLATION_MARKER = "(Translated by Google)";
-const originalText = (comment: string) =>
-  comment.split(TRANSLATION_MARKER)[0].trim();
-
-const opinions = reviews
-  .filter((r) => r.comment?.trim()) // rating-only reviews have nothing to show
-  .sort((a, b) => b.createTime.localeCompare(a.createTime))
-  .map((r) => ({
-    alias: r.reviewer.displayName,
-    desc: originalText(r.comment),
-  }));
+import { opinions } from "../../data/reviews";
 ---
 
 <div
