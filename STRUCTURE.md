@@ -41,7 +41,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | Reviews | Replace `src/assets/opinie/reviews.json` with a fresh Google Business Profile export. Parsed once in `src/data/reviews.ts` (name = `reviewer.displayName`, text = `comment` minus "(Translated by Google)" part, newest first) |
 | Offer / about texts | arrays in `Oferta.astro`, `ONas.astro` |
 | Counters (40 / 65) | `data-target` in `Opinie.astro` |
-| Section images | `src/images/{oferta,onas}/`, `landing_page.jpg`, `logo1.png` (footer), `logo2.png` (header) |
+| Section images | `src/images/{oferta,onas}/`, `landing_page.jpg`, `logo3.png` (footer), `logo2.png` (header) |
 
 ## Styles & theme
 - `src/styles/global.css` – Tailwind import, `@config` → `tailwind.config.mjs`, Jost font, `Ironclad` @font-face (`public/fonts/`), `@theme`: `font-ironclad`, `text-fsmall 16px / fmd 20px / fhd 24px`.
