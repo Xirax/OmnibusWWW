@@ -1,6 +1,6 @@
 ---
 import Section from '../../ui/Section.astro';
-const videoModules = import.meta.glob('/src/images/portfolio/videos/*.{gif,GIF}', { eager: true });
+const videoModules = import.meta.glob('/src/images/portfolio/videos/*.{mp4,MP4}', { eager: true, query: '?url' });
 const horizModules = import.meta.glob('/src/images/portfolio/images/horizontal/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
 const vertModules  = import.meta.glob('/src/images/portfolio/images/vertical/*.{jpg,JPG,jpeg,JPEG,png,PNG,webp,WEBP}', { eager: true });
 
@@ -20,18 +20,22 @@ const verticals = toList(vertModules);
   <!-- Two full-width columns -->
   <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-1">
 
-    <!-- Left column: looping videos (gifs) -->
+    <!-- Left column: looping mp4 clips -->
     <a
       id="portfolio-video"
       href="/videosGallery"
       class="relative group block overflow-hidden h-[50vh] md:h-[85vh] bg-primary-light"
     >
-      <img
+      <video
         id="video-current"
-        src=""
-        alt=""
-        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
-      />
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        aria-hidden="true"
+        class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500"
+      ></video>
       <div class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/50 transition-all duration-300">
         <span class="font-ironclad text-fsmall tracking-[0.3em] uppercase text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           Zobacz więcej video...

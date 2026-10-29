@@ -21,7 +21,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | `Header/Header.astro` + `header.js` | Fixed header: logo, nav (from `header.json`), socials, mobile menu, "scrolled" bg, back arrow on sub-pages |
 | `sections/Landing.astro` | Hero, full-screen bg `images/landing_page.jpg`, scroll-down button → `#oferta` |
 | `sections/Oferta.astro` | `#oferta` – 3 services (Fotografia/Film/Grafika), data array in frontmatter, slide-in on scroll |
-| `sections/Portfolio/Portfolio.astro` + `portfolio.js` | `#portfolio` – 2 tiles: GIF slideshow → `/videosGallery`, 3-photo slideshow → `/fotoGallery`. Data passed via `<script type="application/json" id="portfolio-data">` |
+| `sections/Portfolio/Portfolio.astro` + `portfolio.js` | `#portfolio` – 2 tiles: muted autoplay `<video>` (mp4) slideshow → `/videosGallery`, 3-photo slideshow → `/fotoGallery`. Data passed via `<script type="application/json" id="portfolio-data">` |
 | `sections/ONas.astro` | `#o-nas` – studio + Franciszek + Dominik bios (data objects in frontmatter) |
 | `sections/Opinie/Opinie.astro` + `opinie.js` | `#opinie` – animated counters (`data-counter data-target`), Google review link, preview button, modal |
 | `sections/Opinie/OpiniePreviewButton.astro` | Teaser card showing the newest review (placeholder "Jan Kowalski" only when there are none), opens modal via `data-opinie-modal-open` |
@@ -35,7 +35,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | What | Where |
 |---|---|
 | Photo gallery | `src/images/gallery/{portrait,events,parties,animals}/` (auto via `import.meta.glob`) |
-| Portfolio slideshow | `src/images/portfolio/images/{horizontal,vertical}/`, GIFs in `portfolio/videos/` |
+| Portfolio slideshow | `src/images/portfolio/images/{horizontal,vertical}/`, mp4 clips in `portfolio/videos/` – after adding clips run `npm run compress:videos` (needs system ffmpeg; raw files go to git-ignored `videos/originals/`) |
 | Videos | `src/pages/videosGallery/shorts.json` (Shorts) + `videos.json` (long format) – arrays of YouTube or Canva share URLs |
 | Client logos | `src/images/clients/` (auto; file name = alt text) |
 | Reviews | Replace `src/assets/opinie/reviews.json` with a fresh Google Business Profile export. Parsed once in `src/data/reviews.ts` (name = `reviewer.displayName`, text = `comment` minus "(Translated by Google)" part, newest first) |
@@ -50,7 +50,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 - Visual language: dark bg, gold accent, uppercase tracked `font-ironclad` headings, section header = line–label–line.
 
 ## Config / infra
-`astro.config.mjs` (site URL, Tailwind vite plugin) · `tsconfig.json` (strict) · `.prettierrc` · `.github/workflows/deploy.yml` (main → Pages) · `public/` (CNAME, favicons, fonts).
+`astro.config.mjs` (site URL, Tailwind vite plugin) · `tsconfig.json` (strict) · `.prettierrc` · `.github/workflows/deploy.yml` (main → Pages) · `public/` (CNAME, favicons, fonts) · `scripts/compress-videos.mjs` (`npm run compress:videos`).
 
 ## Known issues / refactor backlog
 - `socialLinks` array duplicated in `Header.astro` and `Kontakt.astro` → move to `src/data/`.
@@ -59,5 +59,5 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 - Google review URL duplicated (`Opinie.astro`, `OpinieModal.astro`).
 - `ONas` uses `<img>` instead of `<Image>`.
 - Fonts loaded twice (Cormorant/Montserrat in layout, Jost/Jura/Literata/Space Mono in CSS) – most unused.
-- Unused/duplicate images: `src/images/dominik.JPG`, `src/images/franek.JPG` (copies in `onas/`); `portfolio/videos/test.gif`.
+- Unused/duplicate images: `src/images/dominik.JPG`, `src/images/franek.JPG` (copies in `onas/`).
 - `README.md` is the default Astro template.

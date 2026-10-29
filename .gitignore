@@ -1,5 +1,9 @@
 # build output
 dist/
+
+# raw portfolio clips kept by `npm run compress:videos`
+src/images/portfolio/videos/originals/
+
 # generated types
 .astro/
 
