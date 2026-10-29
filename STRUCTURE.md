@@ -6,7 +6,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 |---|---|---|
 | `/` | `index.astro` | One-pager: Header → Landing → Oferta → Portfolio → ONas → Opinie → Clients → Kontakt |
 | `/fotoGallery` | `fotoGallery/index.astro` | Photo masonry in 4 sections (+ inline lightbox script) |
-| `/videosGallery` | `videosGallery/index.astro` (+ `_utils.js`: share URL → embed src) | Video embeds (YouTube / Canva): `shorts` (9:16) + `longs` (16:9); empty section → "Wkrótce..." |
+| `/videosGallery` | `videosGallery/index.astro` (+ `_utils.js`: share URL → embed src + title/poster via provider oEmbed at build time) | Poster cards (`VideoCard`) for YouTube / Canva: `shorts` (9:16) + `longs` (16:9), click → `VideoOverlay` player; empty section → "Wkrótce..." |
 | `/gallery?id=…` | `gallery.astro` | **Legacy**, not linked anywhere (old query-param gallery) – candidate to delete |
 
 **Nav per route:** `header.json` placed in a page folder (`src/pages/header.json`, `fotoGallery/header.json`,
@@ -27,6 +27,8 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 | `sections/Opinie/OpiniePreviewButton.astro` | Teaser card showing the newest review (placeholder "Jan Kowalski" only when there are none), opens modal via `data-opinie-modal-open` |
 | `OpinieModal/OpinieModal.astro` + `opiniemodal.js` | Reviews popup listing `opinions` from `src/data/reviews.ts`; avatar `avatar.png` |
 | `ui/Section.astro` | Shared section wrapper (`id`, `title`, `fullBleed?`, `class?`): vertical/horizontal padding + header. **Change section spacing here.** Used by all sections and both galleries |
+| `ui/VideoCard.astro` | Static video poster + play button + title (`data-video-*`); no iframe until clicked |
+| `ui/VideoOverlay/VideoOverlay.astro` + `videooverlay.js` | Full-screen `<dialog>` player; creates the iframe on card click, removes it on close (Esc / backdrop / ×) |
 | `ui/SectionHeader.astro` | line–label–line heading (used by `Section`; own margin-bottom here) |
 | `sections/Clients.astro` | `#zaufali-nam` "Zaufali nam" – auto-scrolling logo marquee (80% width, faded edges), logos via `import.meta.glob`; hidden if folder empty |
 | `sections/Kontakt.astro` | `#kontakt` footer – phones, email, socials, "Napisz do nas" (Gmail), logo |
@@ -36,7 +38,7 @@ Project map – keep in sync with the code (see CLAUDE.md). Paths relative to re
 |---|---|
 | Photo gallery | `src/images/gallery/{portrait,events,parties,animals}/` (auto via `import.meta.glob`) |
 | Portfolio slideshow | `src/images/portfolio/images/{horizontal,vertical}/`, mp4 clips in `portfolio/videos/` – after adding clips run `npm run compress:videos` (needs system ffmpeg; raw files go to git-ignored `videos/originals/`) |
-| Videos | `src/pages/videosGallery/shorts.json` (Shorts) + `videos.json` (long format) – arrays of YouTube or Canva share URLs |
+| Videos | `src/pages/videosGallery/shorts.json` (Shorts) + `videos.json` (long format) – arrays of YouTube or Canva share URLs (card title = Canva design name / YouTube title; unnamed Canva designs show none) |
 | Client logos | `src/images/clients/` (auto; file name = alt text) |
 | Reviews | Replace `src/assets/opinie/reviews.json` with a fresh Google Business Profile export. Parsed once in `src/data/reviews.ts` (name = `reviewer.displayName`, text = `comment` minus "(Translated by Google)" part, newest first) |
 | Offer / about texts | arrays in `Oferta.astro`, `ONas.astro` |

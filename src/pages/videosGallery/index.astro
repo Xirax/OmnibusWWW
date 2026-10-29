@@ -1,31 +1,33 @@
 ---
 import Section from "../../components/ui/Section.astro";
+import VideoCard from "../../components/ui/VideoCard.astro";
+import VideoOverlay from "../../components/ui/VideoOverlay/VideoOverlay.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/Header/Header.astro";
 
 import "../../styles/index.css";
 import videos from "./videos.json";
 import shorts from "./shorts.json";
-import { toEmbeds } from "./_utils.js";
+import { toVideos } from "./_utils.js";
 
 // Order follows the nav anchors in this folder's header.json.
-// Shorts are vertical (9:16), so they get a narrower aspect and more per row.
+// Shorts are vertical (9:16), so they get a narrower card and more per row.
 const sections = [
   {
     id: "shorts",
     title: "Shorts",
-    videos: toEmbeds(shorts),
-    aspect: "aspect-[9/16]",
+    videos: await toVideos(shorts),
+    orientation: "vertical",
     grid: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4",
   },
   {
     id: "longs",
     title: "Długi format",
-    videos: toEmbeds(videos),
-    aspect: "aspect-video",
+    videos: await toVideos(videos),
+    orientation: "horizontal",
     grid: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
   },
-];
+] as const;
 ---
 
 <BaseLayout title="Wideo — Omnibus Media Studio">
@@ -56,23 +58,8 @@ const sections = [
           >
             {section.videos.length > 0 ? (
               <div class:list={["grid gap-4", section.grid]}>
-                {section.videos.map((src) => (
-                  <div
-                    class:list={[
-                      "overflow-hidden bg-primary-light",
-                      section.aspect,
-                    ]}
-                  >
-                    <iframe
-                      src={src}
-                      title="Omnibus Media Studio — wideo"
-                      loading="lazy"
-                      class="w-full h-full"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                    />
-                  </div>
+                {section.videos.map((video) => (
+                  <VideoCard {...video} orientation={section.orientation} />
                 ))}
               </div>
             ) : (
@@ -85,4 +72,6 @@ const sections = [
       }
     </main>
   </div>
+
+  <VideoOverlay />
 </BaseLayout>

@@ -1,0 +1,56 @@
+---
+// Full-screen player opened by any <VideoCard />. The iframe is created on
+// open and removed on close, which also stops playback.
+---
+
+<dialog
+  id="video-overlay"
+  class="video-overlay m-0 p-0 max-w-none max-h-none w-full h-full bg-transparent text-white"
+  aria-label="Odtwarzacz wideo"
+>
+  <div
+    class="video-overlay__backdrop flex items-center justify-center w-full h-full"
+  >
+    <button
+      type="button"
+      class="video-overlay__close absolute top-4 right-5 z-10 text-white/70 hover:text-accent transition-colors duration-300"
+      aria-label="Zamknij"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div class="video-overlay__frame bg-primary-light"></div>
+  </div>
+</dialog>
+
+<style>
+  .video-overlay::backdrop {
+    background: rgb(0 0 0 / 0.95);
+  }
+
+  /* Largest box of the video's aspect ratio that fits 92vw × 88vh. */
+  .video-overlay__frame {
+    width: min(92vw, calc(88vh * 16 / 9));
+    aspect-ratio: 16 / 9;
+  }
+
+  .video-overlay[data-orientation="vertical"] .video-overlay__frame {
+    width: min(92vw, calc(88vh * 9 / 16));
+    aspect-ratio: 9 / 16;
+  }
+</style>
+
+<script src="./videooverlay.js"></script>
