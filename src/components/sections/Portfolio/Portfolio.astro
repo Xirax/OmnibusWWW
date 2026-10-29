@@ -17,14 +17,14 @@ const verticals = toList(vertModules);
 
 <Section id="portfolio" title="Portfolio" fullBleed>
 
-  <!-- Two full-width columns -->
-  <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-1">
+  <!-- Stacked on mobile; from md a 9:16 video column + photos filling the rest -->
+  <div class="flex flex-col md:flex-row w-full gap-1">
 
     <!-- Left column: looping mp4 clips -->
     <a
       id="portfolio-video"
       href="/videosGallery"
-      class="relative group block overflow-hidden h-[50vh] md:h-[85vh] bg-primary-light"
+      class="relative group block overflow-hidden h-[50vh] md:h-[85vh] md:aspect-[9/16] md:shrink-0 bg-primary-light"
     >
       <video
         id="video-current"
@@ -47,7 +47,7 @@ const verticals = toList(vertModules);
     <a
       id="portfolio-image"
       href="/fotoGallery"
-      class="relative group block overflow-hidden h-[50vh] md:h-[85vh] bg-primary-light md:col-span-2"
+      class="relative group block overflow-hidden h-[50vh] md:h-[85vh] bg-primary-light md:flex-1 md:min-w-0"
     >
       <div class="absolute inset-0 grid grid-cols-3 gap-1">
         <!-- Left 3/5: two horizontal images, one below the other -->
